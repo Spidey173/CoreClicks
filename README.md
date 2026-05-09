@@ -82,10 +82,5 @@ CoreClicks/
 │       ├── stopwatch.html
 │       └── quotes.html
 │
-├── static/
-│   ├── css/
-│   ├── js/
-│   └── images/
-│
 ├── *.csv
 └── README.md
