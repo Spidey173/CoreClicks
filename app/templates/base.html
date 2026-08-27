@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CoreClicks 2.0 — Handcrafted Magma Sunset SaaS Utility Workspace">
+    <title>{% block title %}CoreClicks 2.0 — Handcrafted Utility Suite{% endblock %}</title>
+
+    <!-- Google Fonts: Fraunces, Outfit, Plus Jakarta Sans, Inter, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Magma Sunset Design System -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="saas-layout">
+        <!-- Magma Sunset SaaS Sidebar -->
+        <aside class="saas-sidebar" id="saasSidebar">
+            <div>
+                <!-- Brand Header -->
+                <a href="{{ url_for('main.dashboard') }}" class="saas-sidebar-brand">
+                    <div class="rounded-3 p-2 bg-gradient text-white d-flex align-items-center justify-content-center" style="background: var(--gradient-sunset); width: 32px; height: 32px;">
+                        <i class="fas fa-fire-flame-curved" style="font-size: 0.95rem;"></i>
+                    </div>
+                    <span>CoreClicks</span>
+                    <span class="badge badge-soft-primary ms-auto" style="font-size: 0.65rem; letter-spacing: 0.05em;">PRO</span>
+                </a>
+
+                <!-- Grouped Navigation Menu -->
+                <nav class="saas-sidebar-nav">
+                    <!-- Overview -->
+                    <div class="sidebar-group-title">Workspace</div>
+                    <a href="{{ url_for('main.dashboard') }}" class="saas-nav-link {% if request.path == '/dashboard' %}active{% endif %}">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Overview</span>
+                    </a>
+
+                    <!-- Productivity -->
+                    <div class="sidebar-group-title">Productivity</div>
+                    <a href="{{ url_for('tasks.view') }}" class="saas-nav-link {% if request.path == '/tasks' %}active{% endif %}">
+                        <i class="fas fa-tasks text-success"></i>
+                        <span>Task Manager</span>
+                    </a>
+                    <a href="{{ url_for('notes.view') }}" class="saas-nav-link {% if request.path == '/notes' %}active{% endif %}">
+                        <i class="fas fa-note-sticky text-warning"></i>
+                        <span>Notes Workspace</span>
+                    </a>
+
+                    <!-- Security -->
+                    <div class="sidebar-group-title">Security</div>
+                    <a href="{{ url_for('password.view') }}" class="saas-nav-link {% if request.path == '/password-security' %}active{% endif %}">
+                        <i class="fas fa-shield-halved text-danger"></i>
+                        <span>Password Auditor</span>
+                    </a>
+
+                    <!-- Developer -->
+                    <div class="sidebar-group-title">Developer Instruments</div>
+                    <a href="{{ url_for('api_tester.view') }}" class="saas-nav-link {% if request.path == '/api-tester' %}active{% endif %}">
+                        <i class="fas fa-paper-plane text-primary"></i>
+                        <span>REST API Tester</span>
+                    </a>
+                    <a href="{{ url_for('calculator.view') }}" class="saas-nav-link {% if request.path == '/calculator' %}active{% endif %}">
+                        <i class="fas fa-calculator text-warning"></i>
+                        <span>Safe Calculator</span>
+                    </a>
+
+                    <!-- Analytics & Finance -->
+                    <div class="sidebar-group-title">Analytics & Finance</div>
+                    <a href="{{ url_for('analytics.view') }}" class="saas-nav-link {% if request.path == '/analytics' %}active{% endif %}">
+                        <i class="fas fa-chart-line text-info"></i>
+                        <span>CSV Analytics</span>
+                    </a>
+                    <a href="{{ url_for('expenses.view') }}" class="saas-nav-link {% if request.path == '/expenses' %}active{% endif %}">
+                        <i class="fas fa-wallet text-success"></i>
+                        <span>Expense Tracker</span>
+                    </a>
+
+                    <!-- Utilities -->
+                    <div class="sidebar-group-title">Creative & Utility</div>
+                    <a href="{{ url_for('file_tools.view') }}" class="saas-nav-link {% if request.path == '/file-tools' %}active{% endif %}">
+                        <i class="fas fa-file-waveform text-danger"></i>
+                        <span>File Studio</span>
+                    </a>
+                    <a href="{{ url_for('color_tools.view') }}" class="saas-nav-link {% if request.path == '/color-tools' %}active{% endif %}">
+                        <i class="fas fa-palette text-warning"></i>
+                        <span>Color Studio</span>
+                    </a>
+                    <a href="{{ url_for('url_shortener.view') }}" class="saas-nav-link {% if request.path == '/url-shortener' %}active{% endif %}">
+                        <i class="fas fa-link text-primary"></i>
+                        <span>URL Shortener</span>
+                    </a>
+
+                    {% if current_user.is_authenticated and current_user.is_admin %}
+                    <!-- Administration -->
+                    <div class="sidebar-group-title">Administration</div>
+                    <a href="{{ url_for('admin.index') }}" class="saas-nav-link {% if request.path.startswith('/admin') %}active{% endif %}">
+                        <i class="fas fa-user-shield text-danger"></i>
+                        <span>Admin Console</span>
+                    </a>
+                    {% endif %}
+                </nav>
+            </div>
+
+            <!-- Sidebar User Profile Footer -->
+            <div class="saas-sidebar-footer">
+                {% if current_user.is_authenticated %}
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-2 text-truncate">
+                        <div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold" style="width: 34px; height: 34px; font-size: 0.85rem; background: var(--gradient-sunset);">
+                            {{ current_user.username[:1].upper() }}
+                        </div>
+                        <div class="text-truncate">
+                            <div class="fw-bold text-white small text-truncate">{{ current_user.username }}</div>
+                            <div class="text-muted" style="font-size: 0.72rem;">{{ current_user.role.upper() }}</div>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('auth.logout') }}" class="text-muted hover-danger" title="Logout">
+                        <i class="fas fa-right-from-bracket"></i>
+                    </a>
+                </div>
+                {% else %}
+                <a href="{{ url_for('auth.login') }}" class="btn btn-sm btn-magma-primary w-100">Login</a>
+                {% endif %}
+            </div>
+        </aside>
+
+        <!-- Main Workspace Wrapper -->
+        <div class="saas-main-wrapper">
+            <!-- Top Navigation Bar -->
+            <header class="saas-topbar">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-sm btn-magma-outline d-lg-none p-2" onclick="document.getElementById('saasSidebar').classList.toggle('show')">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <!-- Global Omni-Search Trigger -->
+                    <button class="search-trigger-btn" data-bs-toggle="modal" data-bs-target="#omniSearchModal">
+                        <i class="fas fa-magnifying-glass text-warning"></i>
+                        <span>Search instruments & records...</span>
+                        <span class="kbd-shortcut">⌘K</span>
+                    </button>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                    <!-- Notification Center Dropdown -->
+                    <div class="dropdown">
+                        <button class="btn btn-magma-outline btn-sm rounded-circle position-relative p-0 d-flex align-items-center justify-content-center" id="notificationsDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" style="width: 38px; height: 38px;">
+                            <i class="far fa-bell"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="notifications-badge" style="display: none; font-size: 0.65rem;">
+                                0
+                            </span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end shadow-lg border-0 p-3" style="width: 320px;" aria-labelledby="notificationsDropdownBtn">
+                            <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
+                                <h6 class="fw-bold mb-0 small text-uppercase">Notifications</h6>
+                                <button class="btn btn-link btn-sm text-decoration-none p-0 small text-primary" id="mark-all-read-btn">Mark all read</button>
+                            </div>
+                            <div id="notifications-dropdown-list" style="max-height: 280px; overflow-y: auto;">
+                                <div class="text-center text-muted py-3 small">Loading notifications...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button class="btn btn-magma-outline btn-sm rounded-circle d-flex align-items-center justify-content-center p-0" id="theme-toggle-btn" style="width: 38px; height: 38px;" title="Toggle Dark/Light Mode">
+                        <i id="theme-icon" class="fas fa-sun"></i>
+                    </button>
+
+                    <!-- User Account Dropdown -->
+                    {% if current_user.is_authenticated %}
+                    <div class="dropdown">
+                        <button class="btn btn-magma-outline btn-sm d-flex align-items-center gap-2 rounded-pill px-3" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle text-warning"></i>
+                            <span class="fw-semibold">{{ current_user.username }}</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
+                            {% if current_user.is_admin %}
+                            <li><a class="dropdown-item" href="{{ url_for('admin.index') }}"><i class="fas fa-shield-halved me-2 text-danger"></i>Admin Console</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% endif %}
+                            <li><a class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}"><i class="fas fa-right-from-bracket me-2"></i>Sign Out</a></li>
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </header>
+
+            <!-- Flash Alert Messages -->
+            <div class="container-fluid px-4 pt-3">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show rounded-3 shadow-sm mb-3 border-0" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+            <!-- Page Content -->
+            <main class="flex-grow-1 p-4">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <!-- Omni Search Modal (Cmd+K) -->
+    <div class="modal fade" id="omniSearchModal" tabindex="-1" aria-labelledby="omniSearchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content magma-card border-0 shadow-lg overflow-hidden">
+                <div class="p-3 border-bottom d-flex align-items-center gap-2">
+                    <i class="fas fa-magnifying-glass text-warning fs-5"></i>
+                    <input type="text" class="omni-search-input" id="omni-search-input" placeholder="Search tasks, notes, expenses, links, API tests..." autocomplete="off">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="p-2 omni-search-results" id="omni-results-container">
+                    <div class="text-center text-muted py-4 small">Type to search across all your records...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Toast Container -->
+    <div id="toast-container" class="toast-container-custom"></div>
+
+    <!-- Bootstrap 5.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Chart.js 4.4 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <!-- Global App Engine -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

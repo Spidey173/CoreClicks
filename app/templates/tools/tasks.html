@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Task Manager & Kanban Studio — CoreClicks 2.0{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header & Action Bar -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <div>
+            <h3 class="fw-bold mb-0"><i class="fas fa-tasks text-success me-2"></i>Task Manager & Kanban Board</h3>
+            <p class="text-muted small mb-0 mt-1">Organize sprints, track priorities, and drag cards across columns with live state persistence.</p>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+            <!-- Filter inputs -->
+            <select class="form-select form-select-saas form-select-sm" id="task-category-filter" style="width: 140px;">
+                <option value="all" selected>All Categories</option>
+                <option value="DevOps">DevOps</option>
+                <option value="Security">Security</option>
+                <option value="Finance">Finance</option>
+                <option value="Design">Design</option>
+                <option value="General">General</option>
+            </select>
+
+            <select class="form-select form-select-saas form-select-sm" id="task-priority-filter" style="width: 130px;">
+                <option value="all" selected>All Priorities</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+            </select>
+
+            <button class="btn btn-primary-saas btn-sm" data-bs-toggle="modal" data-bs-target="#createTaskModal">
+                <i class="fas fa-plus me-1"></i> New Task
+            </button>
+        </div>
+    </div>
+
+    <!-- Kanban Board Grid (4 Drag-and-Drop Columns) -->
+    <div class="kanban-board">
+        <!-- 1. To Do -->
+        <div class="kanban-col kanban-col-droppable" data-status="todo">
+            <div class="kanban-col-header text-muted">
+                <span><i class="far fa-circle text-primary me-1"></i> To Do</span>
+            </div>
+            <div class="d-flex flex-column" id="kanban-todo-list"></div>
+        </div>
+
+        <!-- 2. In Progress -->
+        <div class="kanban-col kanban-col-droppable" data-status="in_progress">
+            <div class="kanban-col-header text-muted">
+                <span><i class="fas fa-spinner fa-spin text-warning me-1"></i> In Progress</span>
+            </div>
+            <div class="d-flex flex-column" id="kanban-in_progress-list"></div>
+        </div>
+
+        <!-- 3. Review -->
+        <div class="kanban-col kanban-col-droppable" data-status="review">
+            <div class="kanban-col-header text-muted">
+                <span><i class="fas fa-magnifying-glass text-info me-1"></i> In Review</span>
+            </div>
+            <div class="d-flex flex-column" id="kanban-review-list"></div>
+        </div>
+
+        <!-- 4. Done -->
+        <div class="kanban-col kanban-col-droppable" data-status="done">
+            <div class="kanban-col-header text-muted">
+                <span><i class="fas fa-check-circle text-success me-1"></i> Completed</span>
+            </div>
+            <div class="d-flex flex-column" id="kanban-done-list"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Task Modal -->
+<div class="modal fade" id="createTaskModal" tabindex="-1" aria-labelledby="createTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content saas-card border-0 shadow-lg">
+            <div class="modal-header border-bottom">
+                <h5 class="modal-title fw-bold" id="createTaskModalLabel"><i class="fas fa-plus-circle text-success me-2"></i>Create New Task</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted text-uppercase">Task Title</label>
+                    <input type="text" id="new-task-title" class="form-control form-control-saas" placeholder="e.g. Implement OAuth integration" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted text-uppercase">Description</label>
+                    <textarea id="new-task-desc" class="form-control form-control-saas" rows="3" placeholder="Optional details, notes, or subtasks..."></textarea>
+                </div>
+                <div class="row g-2 mb-3">
+                    <div class="col-6">
+                        <label class="form-label small fw-semibold text-muted text-uppercase">Priority</label>
+                        <select id="new-task-priority" class="form-select form-select-saas">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label small fw-semibold text-muted text-uppercase">Category</label>
+                        <input type="text" id="new-task-category" class="form-control form-control-saas" value="General">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted text-uppercase">Due Date</label>
+                    <input type="date" id="new-task-due" class="form-control form-control-saas">
+                </div>
+            </div>
+            <div class="modal-footer border-top">
+                <button type="button" class="btn btn-outline-saas" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary-saas" id="save-new-task-btn">Create Task</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/tasks.js') }}?v=2.0.1"></script>
+{% endblock %}

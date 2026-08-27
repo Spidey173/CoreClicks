@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}URL Shortener & QR Studio — CoreClicks 2.0{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="magma-card mb-4 overflow-hidden">
+                <!-- Header in Sunset Gradient -->
+                <div class="p-3 text-white d-flex justify-content-between align-items-center" style="background: var(--gradient-sunset);">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-link fs-5"></i>
+                        <span class="fw-bold">URL Shortener & Dynamic QR Studio</span>
+                    </div>
+                    <span class="badge bg-white text-dark small">Click Telemetry</span>
+                </div>
+
+                <div class="p-4">
+                    <!-- URL Creation Box -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-5">
+                            <label class="form-label small fw-semibold text-muted text-uppercase mb-1">Target URL</label>
+                            <input type="url" class="form-control form-control-saas" id="original-url-input" placeholder="https://example.com/very/long/url" required>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <label class="form-label small fw-semibold text-muted text-uppercase mb-1">Link Title</label>
+                            <input type="text" class="form-control form-control-saas" id="url-title-input" placeholder="e.g. Documentation">
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <label class="form-label small fw-semibold text-muted text-uppercase mb-1">Custom Alias</label>
+                            <input type="text" class="form-control form-control-saas" id="custom-code-input" placeholder="e.g. my-link">
+                        </div>
+                        <div class="col-md-2 col-12">
+                            <label class="form-label small fw-semibold text-muted text-uppercase mb-1">Password (Opt)</label>
+                            <input type="password" class="form-control form-control-saas" id="url-password-input" placeholder="••••">
+                        </div>
+                        <div class="col-12 mt-3">
+                            <button class="btn-magma-primary w-100 py-2 fw-semibold" id="shorten-url-btn">
+                                <i class="fas fa-wand-magic-sparkles me-1"></i> Shorten URL & Generate QR
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Links Table -->
+                    <div>
+                        <h6 class="fw-bold mb-3 small text-uppercase text-muted"><i class="fas fa-chart-simple text-warning me-2"></i>Active Smart Links</h6>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-subtle-custom border-bottom border-custom small text-muted">
+                                    <tr>
+                                        <th>Title / Target</th>
+                                        <th>Short Link</th>
+                                        <th>Clicks</th>
+                                        <th>Expires</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="short-links-table-body">
+                                    <tr><td colspan="5" class="text-center text-muted py-4 small">Loading links...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="urls-empty-state" class="text-center py-5 text-muted" style="display: none;">
+                            <i class="fas fa-link-slash fs-1 opacity-50 mb-3 text-warning"></i>
+                            <h5>No shortened links yet</h5>
+                            <p class="small text-muted mb-0">Enter a target URL above to create your first link.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- QR Code Modal -->
+<div class="modal fade" id="urlQrModal" tabindex="-1" aria-labelledby="urlQrModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content magma-card border-0 text-center shadow-lg">
+            <div class="modal-header border-bottom border-custom">
+                <h5 class="modal-title fw-bold" id="urlQrModalLabel"><i class="fas fa-qrcode text-warning me-2"></i>High-Res QR Code</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="mb-3 p-3 bg-white rounded border border-custom d-inline-block shadow-sm">
+                    <img id="modal-qr-img" src="" alt="QR Code" style="width: 180px; height: 180px;">
+                </div>
+                <div class="d-flex justify-content-center gap-2">
+                    <a href="#" id="download-qr-png" class="btn btn-outline-saas btn-sm"><i class="fas fa-download me-1"></i> Download PNG</a>
+                    <a href="#" id="download-qr-svg" class="btn btn-outline-saas btn-sm"><i class="fas fa-download me-1"></i> Download SVG</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/url_shortener.js') }}"></script>
+{% endblock %}

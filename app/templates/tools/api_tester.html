@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}REST API Tester & Postman Client — CoreClicks 2.0{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row g-4">
+        <!-- Main Request & Response Section -->
+        <div class="col-lg-8">
+            <div class="magma-card overflow-hidden mb-4">
+                <div class="p-3 text-white d-flex justify-content-between align-items-center" style="background: var(--gradient-sunset);">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-paper-plane fs-5"></i>
+                        <span class="fw-bold">REST API Request Tester & Inspector</span>
+                    </div>
+                    <span class="badge bg-white text-dark small">HTTP Client</span>
+                </div>
+
+                <div class="p-4">
+                    <!-- Request Bar -->
+                    <div class="input-group mb-3">
+                        <select class="form-select form-select-saas fw-bold" id="api-method-select" style="max-width: 120px;">
+                            <option value="GET" selected>GET</option>
+                            <option value="POST">POST</option>
+                            <option value="PUT">PUT</option>
+                            <option value="PATCH">PATCH</option>
+                            <option value="DELETE">DELETE</option>
+                            <option value="HEAD">HEAD</option>
+                        </select>
+                        <input type="url" class="form-control form-control-saas font-mono" id="api-url-input" value="https://jsonplaceholder.typicode.com/todos/1" placeholder="https://api.example.com/v1/resource">
+                        <button class="btn-magma-primary px-4" id="send-api-btn">
+                            <i class="fas fa-paper-plane me-1"></i> Send Request
+                        </button>
+                    </div>
+
+                    <!-- Config Tabs (Auth, Headers, Body) -->
+                    <ul class="nav nav-tabs mb-3 border-custom" id="apiReqTab" role="tablist">
+                        <li class="nav-item"><button class="nav-link active small fw-semibold text-muted" data-bs-toggle="tab" data-bs-target="#body-tab-pane">Request Body</button></li>
+                        <li class="nav-item"><button class="nav-link small fw-semibold text-muted" data-bs-toggle="tab" data-bs-target="#headers-tab-pane">Headers</button></li>
+                        <li class="nav-item"><button class="nav-link small fw-semibold text-muted" data-bs-toggle="tab" data-bs-target="#auth-tab-pane">Authentication</button></li>
+                    </ul>
+
+                    <div class="tab-content mb-4">
+                        <!-- Body Tab -->
+                        <div class="tab-pane fade show active" id="body-tab-pane">
+                            <div class="d-flex justify-content-end mb-1">
+                                <button class="btn btn-sm btn-link text-primary p-0 small text-decoration-none" id="beautify-json-btn">Format JSON</button>
+                            </div>
+                            <textarea id="api-body-input" class="form-control form-control-saas font-mono small" rows="4" placeholder='{\n  "name": "CoreClicks",\n  "version": "2.0"\n}'></textarea>
+                        </div>
+
+                        <!-- Headers Tab -->
+                        <div class="tab-pane fade" id="headers-tab-pane">
+                            <textarea id="api-headers-input" class="form-control form-control-saas font-mono small" rows="4" placeholder='{\n  "Accept": "application/json"\n}'></textarea>
+                        </div>
+
+                        <!-- Auth Tab -->
+                        <div class="tab-pane fade" id="auth-tab-pane">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <label class="form-label small text-muted">Auth Type</label>
+                                    <select class="form-select form-select-saas" id="api-auth-type">
+                                        <option value="none" selected>No Auth</option>
+                                        <option value="bearer">Bearer Token</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-8" id="auth-bearer-group" style="display: none;">
+                                    <label class="form-label small text-muted">Bearer Token</label>
+                                    <input type="text" class="form-control form-control-saas font-mono" id="api-auth-bearer-token" placeholder="eyJhbGciOiJIUzI1Ni...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Response Pane -->
+                    <div class="saas-card p-0 overflow-hidden border border-custom">
+                        <div class="saas-card-header bg-subtle-custom border-bottom border-custom py-2 px-3 d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="small fw-bold text-muted text-uppercase">Response:</span>
+                                <span class="badge bg-secondary" id="api-status-badge">—</span>
+                                <span class="badge badge-soft-primary" id="api-latency-badge">0 ms</span>
+                                <span class="badge badge-soft-info" id="api-size-badge">0 KB</span>
+                            </div>
+                            <button class="btn btn-sm btn-outline-saas border-custom" id="copy-api-response-btn" title="Copy Response"><i class="far fa-copy text-warning"></i></button>
+                        </div>
+                        <div class="p-3 bg-dark text-white font-mono small overflow-auto" style="max-height: 400px;">
+                            <pre id="api-response-body" class="mb-0 text-white" style="white-space: pre-wrap;">Send a request to inspect response body and headers...</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Sidebar -->
+        <div class="col-lg-4">
+            <div class="magma-card h-100 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold mb-0 small text-uppercase text-muted"><i class="fas fa-clock-rotate-left text-warning me-1"></i> Request History</h6>
+                </div>
+                <div id="api-history-sidebar" style="max-height: 540px; overflow-y: auto;">
+                    <div class="text-center text-muted py-4 small">Loading history...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/api_tester.js') }}"></script>
+{% endblock %}

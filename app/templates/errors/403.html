@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}403 — Access Forbidden — CoreClicks 2.0{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center my-auto">
+    <div class="magma-card p-5 max-w-600 mx-auto position-relative overflow-hidden">
+        <div class="display-1 fw-bold text-danger mb-3 font-heading">403</div>
+        <h2 class="fw-bold mb-2">Access Restricted</h2>
+        <p class="text-muted mb-4">You do not possess the required cryptographic permissions or role privileges to view this console.</p>
+        <a href="{{ url_for('main.dashboard') }}" class="btn-magma-primary px-4">
+            <i class="fas fa-arrow-left me-1"></i> Back to Workspace
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}Color Studio — CoreClicks 2.0{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <div>
+            <h3 class="fw-bold mb-0"><i class="fas fa-palette text-warning me-2"></i>Color Palette & WCAG Studio</h3>
+            <p class="text-muted small mb-0 mt-1">Generate mathematical color harmonies, audit contrast ratios, and export production tokens.</p>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-magma-outline btn-sm" id="random-palette-btn">
+                <i class="fas fa-shuffle me-1 text-warning"></i> Randomize
+            </button>
+            <button class="btn btn-magma-outline btn-sm" data-bs-toggle="modal" data-bs-target="#exportCodeModal">
+                <i class="fas fa-code me-1 text-warning"></i> Export Tokens
+            </button>
+            <button class="btn btn-magma-primary btn-sm" id="save-palette-btn">
+                <i class="fas fa-bookmark me-1"></i> Save Palette
+            </button>
+        </div>
+    </div>
+
+    <!-- Controls Row -->
+    <div class="magma-card p-3 mb-4">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-3 col-sm-6">
+                <label class="form-label small fw-semibold text-muted text-uppercase mb-1">Base Seed Color</label>
+                <div class="d-flex align-items-center gap-2">
+                    <input type="color" class="form-control form-control-color border-0 p-0" id="base-color-picker" value="#E4572E" style="width: 40px; height: 40px; cursor: pointer; border-radius: 8px;">
+                    <input type="text" class="form-control form-control-saas font-mono" id="base-hex-text" value="#E4572E" maxlength="7">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <label class="form-label small fw-semibold text-muted text-uppercase mb-1">Harmony Rule</label>
+                <select class="form-select form-select-saas" id="harmony-type-select">
+                    <option value="Complementary" selected>Complementary</option>
+                    <option value="Analogous">Analogous</option>
+                    <option value="Triadic">Triadic</option>
+                    <option value="Monochromatic">Monochromatic</option>
+                    <option value="Tetradic">Tetradic</option>
+                </select>
+            </div>
+            <div class="col-md-5">
+                <label class="form-label small fw-semibold text-muted text-uppercase mb-1">Quick Inspiration</label>
+                <div class="d-flex flex-wrap gap-2">
+                    <button class="btn btn-sm btn-magma-ghost border border-custom py-1 px-2 preset-theme-btn" data-color="#E4572E" data-harmony="Complementary">Sunset</button>
+                    <button class="btn btn-sm btn-magma-ghost border border-custom py-1 px-2 preset-theme-btn" data-color="#9E2A2B" data-harmony="Analogous">Volcanic</button>
+                    <button class="btn btn-sm btn-magma-ghost border border-custom py-1 px-2 preset-theme-btn" data-color="#FFC145" data-harmony="Triadic">Amber</button>
+                    <button class="btn btn-sm btn-magma-ghost border border-custom py-1 px-2 preset-theme-btn" data-color="#10B981" data-harmony="Monochromatic">Emerald</button>
+                    <button class="btn btn-sm btn-magma-ghost border border-custom py-1 px-2 preset-theme-btn" data-color="#00F0FF" data-harmony="Complementary">Cyber</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Palette Swatches Showcase -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-5 g-3 mb-5" id="palette-swatches-container">
+        <div class="col-12 text-center py-5 text-muted small">Generating harmonious palette...</div>
+    </div>
+
+    <!-- WCAG Contrast & Saved Palettes Grid -->
+    <div class="row g-4">
+        <!-- WCAG 2.1 Contrast Checker -->
+        <div class="col-lg-7">
+            <div class="magma-card h-100 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0"><i class="fas fa-universal-access text-warning me-2"></i>WCAG 2.1 Contrast Audit</h5>
+                    <button class="btn btn-sm btn-magma-outline py-1 px-2" id="swap-contrast-colors-btn">
+                        <i class="fas fa-right-left me-1 text-warning"></i> Swap Colors
+                    </button>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-6">
+                        <label class="form-label small fw-semibold text-muted text-uppercase mb-1">Text Color</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="color" class="form-control form-control-color border-0 p-0" id="contrast-fg-input" value="#1E1E1E" style="width: 38px; height: 38px; cursor: pointer; border-radius: 8px;">
+                            <input type="text" class="form-control form-control-saas font-mono small" id="contrast-fg-text" value="#1E1E1E" maxlength="7">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label small fw-semibold text-muted text-uppercase mb-1">Background</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="color" class="form-control form-control-color border-0 p-0" id="contrast-bg-input" value="#FFF8F2" style="width: 38px; height: 38px; cursor: pointer; border-radius: 8px;">
+                            <input type="text" class="form-control form-control-saas font-mono small" id="contrast-bg-text" value="#FFF8F2" maxlength="7">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Typography Box -->
+                <div class="p-4 rounded-4 border border-custom my-3 shadow-sm transition-all" id="contrast-preview-box" style="background-color: #FFF8F2; color: #1E1E1E;">
+                    <h4 class="fw-bold mb-1">Sample Heading (Large Text)</h4>
+                    <p class="small mb-3 opacity-90">Normal text legibility sample. The quick brown fox jumps over the lazy dog.</p>
+                    <button class="btn btn-sm px-3 rounded-pill fw-semibold" id="preview-button" style="background-color: #1E1E1E; color: #FFF8F2;">
+                        Interactive Element
+                    </button>
+                </div>
+
+                <!-- Contrast Score & Badges -->
+                <div class="d-flex flex-wrap justify-content-between align-items-center p-3 rounded-3 bg-subtle-custom border border-custom gap-2">
+                    <div>
+                        <div class="small text-muted">Contrast Ratio:</div>
+                        <div class="fs-3 fw-bold text-magma font-mono" id="contrast-ratio-display">18.5:1</div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <div class="p-2 rounded bg-surface border border-custom text-center">
+                            <div class="text-muted small" style="font-size:0.7rem;">WCAG AA</div>
+                            <span class="badge bg-success" id="contrast-aa-badge">Pass</span>
+                        </div>
+                        <div class="p-2 rounded bg-surface border border-custom text-center">
+                            <div class="text-muted small" style="font-size:0.7rem;">WCAG AAA</div>
+                            <span class="badge bg-success" id="contrast-aaa-badge">Pass</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Saved Palettes Library -->
+        <div class="col-lg-5">
+            <div class="magma-card h-100 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0"><i class="fas fa-bookmark text-warning me-2"></i>Saved Palettes</h5>
+                    <span class="badge bg-subtle-custom text-muted border border-custom" id="saved-palettes-count">0 Saved</span>
+                </div>
+                <div id="saved-palettes-list" style="max-height: 380px; overflow-y: auto;">
+                    <div class="text-center text-muted py-5 small">No saved palettes yet</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Export Modal -->
+<div class="modal fade" id="exportCodeModal" tabindex="-1" aria-labelledby="exportCodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content magma-card border-0 shadow-lg">
+            <div class="modal-header border-bottom border-custom">
+                <h5 class="modal-title fw-bold" id="exportCodeModalLabel"><i class="fas fa-code text-warning me-2"></i>Export Color Tokens</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <ul class="nav nav-tabs border-custom mb-3" id="exportTabs" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link active small fw-semibold text-muted" data-bs-toggle="tab" data-bs-target="#export-css-pane">CSS Variables</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link small fw-semibold text-muted" data-bs-toggle="tab" data-bs-target="#export-tailwind-pane">Tailwind CSS</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link small fw-semibold text-muted" data-bs-toggle="tab" data-bs-target="#export-json-pane">JSON Tokens</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="export-css-pane">
+                        <pre class="bg-dark text-white p-3 rounded-3 font-mono small mb-2" id="export-css-code" style="max-height: 220px; overflow-y: auto;"></pre>
+                        <button class="btn btn-sm btn-magma-primary" onclick="copyFromElement('export-css-code', 'CSS variables copied!')">
+                            <i class="far fa-copy me-1"></i> Copy CSS
+                        </button>
+                    </div>
+                    <div class="tab-pane fade" id="export-tailwind-pane">
+                        <pre class="bg-dark text-white p-3 rounded-3 font-mono small mb-2" id="export-tailwind-code" style="max-height: 220px; overflow-y: auto;"></pre>
+                        <button class="btn btn-sm btn-magma-primary" onclick="copyFromElement('export-tailwind-code', 'Tailwind config copied!')">
+                            <i class="far fa-copy me-1"></i> Copy Tailwind
+                        </button>
+                    </div>
+                    <div class="tab-pane fade" id="export-json-pane">
+                        <pre class="bg-dark text-white p-3 rounded-3 font-mono small mb-2" id="export-json-code" style="max-height: 220px; overflow-y: auto;"></pre>
+                        <button class="btn btn-sm btn-magma-primary" onclick="copyFromElement('export-json-code', 'JSON tokens copied!')">
+                            <i class="far fa-copy me-1"></i> Copy JSON
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/color_tools.js') }}?v=2.0.2"></script>
+{% endblock %}
