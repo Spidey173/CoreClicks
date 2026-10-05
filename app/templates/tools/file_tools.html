@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block title %}File & PDF/Image Studio — CoreClicks 2.0{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <div>
+            <h3 class="fw-bold mb-0"><i class="fas fa-file-waveform text-danger me-2"></i>File Converter & PDF/Image Studio</h3>
+            <p class="text-muted small mb-0 mt-1">Transform, compress, and convert images (PNG, JPG, WebP) and perform secure PDF operations (Merge, Split, Extract).</p>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-pills mb-4" id="fileToolsTab" role="tablist">
+        <li class="nav-item">
+            <button class="nav-link active fw-bold small" data-bs-toggle="pill" data-bs-target="#image-tools-pane">
+                <i class="fas fa-image me-1"></i> Image Processing & Conversion
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link fw-bold small ms-2" data-bs-toggle="pill" data-bs-target="#pdf-merge-pane">
+                <i class="fas fa-object-group me-1"></i> PDF Merger
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link fw-bold small ms-2" data-bs-toggle="pill" data-bs-target="#pdf-split-pane">
+                <i class="fas fa-scissors me-1"></i> PDF Split & Extract
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- 1. Image Tools -->
+        <div class="tab-pane fade show active" id="image-tools-pane">
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <div class="magma-card p-4">
+                        <h5 class="fw-bold mb-3"><i class="fas fa-sliders text-warning me-2"></i>Image Transformation Parameters</h5>
+                        
+                        <!-- File Upload Dropzone -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted text-uppercase">Select Image File</label>
+                            <input type="file" id="image-file-input" class="form-control form-control-saas" accept="image/png,image/jpeg,image/webp,image/gif" required>
+                        </div>
+
+                        <!-- Live Selected Image Info & Thumbnail -->
+                        <div id="image-preview-wrapper" class="p-3 mb-3 rounded-3 bg-subtle-custom border border-custom" style="display: none;">
+                            <div class="d-flex align-items-center gap-3">
+                                <img id="image-preview-thumb" src="" alt="Thumbnail" class="rounded border" style="width: 60px; height: 60px; object-fit: cover;">
+                                <div class="text-truncate">
+                                    <div class="fw-bold small text-truncate" id="image-preview-name">image.png</div>
+                                    <div class="text-muted" style="font-size: 0.75rem;" id="image-preview-info">0 KB • 0 x 0 px</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <label class="form-label small fw-semibold text-muted text-uppercase">Target Format</label>
+                                <select id="image-target-format" class="form-select form-select-saas">
+                                    <option value="png" selected>PNG (.png)</option>
+                                    <option value="jpg">JPEG (.jpg)</option>
+                                    <option value="webp">WebP (.webp)</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-semibold text-muted text-uppercase">Rotation</label>
+                                <select id="image-rotate-select" class="form-select form-select-saas">
+                                    <option value="0" selected>0° (None)</option>
+                                    <option value="90">90° Clockwise</option>
+                                    <option value="180">180° Inverted</option>
+                                    <option value="270">270° Counter-Clockwise</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <label class="form-label small fw-semibold text-muted text-uppercase">Resize Width (px)</label>
+                                <input type="number" id="image-resize-width" class="form-control form-control-saas" placeholder="Auto / Original">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-semibold text-muted text-uppercase">Resize Height (px)</label>
+                                <input type="number" id="image-resize-height" class="form-control form-control-saas" placeholder="Auto / Original">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <label class="form-label small fw-semibold text-muted text-uppercase mb-0">Compression Quality</label>
+                                <span class="badge bg-subtle-custom text-primary border border-custom font-mono" id="quality-val-display">85%</span>
+                            </div>
+                            <input type="range" id="image-quality-slider" class="form-range" min="10" max="100" value="85">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label small fw-semibold text-muted text-uppercase">Optional Watermark Text</label>
+                            <input type="text" id="image-watermark-text" class="form-control form-control-saas" placeholder="e.g. Confidential / Studio">
+                        </div>
+
+                        <button class="btn-magma-primary w-100" id="process-image-btn">
+                            <i class="fas fa-wand-magic-sparkles me-1"></i> Process & Convert Image
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Result Card -->
+                <div class="col-lg-5">
+                    <div class="magma-card h-100 p-4 text-center justify-content-center" id="image-download-result-card" style="display: none;">
+                        <div class="d-inline-flex p-3 rounded-circle text-white mb-3 mx-auto shadow" style="background: var(--gradient-sunset);">
+                            <i class="fas fa-check fs-2"></i>
+                        </div>
+                        <h5 class="fw-bold mb-1">Image Processed Successfully!</h5>
+                        <p class="small text-muted mb-3" id="image-process-stats">File processed successfully.</p>
+                        <div class="d-flex flex-column gap-2 max-w-300 mx-auto">
+                            <a href="#" class="btn-magma-primary px-4 py-2" id="image-download-link">
+                                <i class="fas fa-download me-1"></i> Download Converted File
+                            </a>
+                            <button class="btn btn-outline-saas btn-sm mt-1" id="image-reset-btn">
+                                <i class="fas fa-rotate-left me-1"></i> Process Another File
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Placeholder before processing -->
+                    <div class="magma-card h-100 p-4 text-center d-flex flex-column justify-content-center text-muted" id="image-placeholder-card">
+                        <div class="p-4 rounded-circle bg-subtle-custom mx-auto mb-3 text-warning fs-1">
+                            <i class="fas fa-file-image"></i>
+                        </div>
+                        <h6 class="fw-bold mb-1">Ready for Transformation</h6>
+                        <p class="small text-muted mb-0">Select an image on the left, adjust conversion and compression parameters, and click process.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. PDF Merge -->
+        <div class="tab-pane fade" id="pdf-merge-pane">
+            <div class="magma-card p-4 mx-auto" style="max-width: 720px;">
+                <h5 class="fw-bold mb-3"><i class="fas fa-object-group text-warning me-2"></i>Merge Multiple PDF Documents</h5>
+                <p class="small text-muted mb-4">Select two or more PDF files from your device to combine them sequentially into a single unified document.</p>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted text-uppercase">Select PDF Files (Hold Ctrl/Cmd for multiple)</label>
+                    <input type="file" id="pdf-merge-files-input" class="form-control form-control-saas" accept=".pdf,application/pdf" multiple required>
+                </div>
+
+                <!-- Selected Files List -->
+                <div id="pdf-merge-list-wrapper" class="mb-4" style="display: none;">
+                    <div class="small fw-semibold text-muted text-uppercase mb-2">Files to be merged (<span id="pdf-merge-count">0</span>):</div>
+                    <ul id="pdf-merge-files-list" class="list-group list-group-flush border rounded-3 bg-subtle-custom p-2 small"></ul>
+                </div>
+
+                <button class="btn-magma-primary w-100 mb-3" id="merge-pdf-btn">
+                    <i class="fas fa-object-group me-1"></i> Merge Selected PDFs
+                </button>
+
+                <!-- Merge Download Card -->
+                <div class="alert alert-success text-center py-4 border-0 rounded-4 shadow-sm" id="pdf-merge-download-card" style="display: none;">
+                    <div class="fs-4 fw-bold mb-1 text-success"><i class="fas fa-circle-check me-2"></i>Merged PDF Created!</div>
+                    <p class="small text-muted mb-3" id="pdf-merge-stats">Unified PDF generated successfully.</p>
+                    <a href="#" class="btn-magma-primary px-4" id="pdf-merge-download-link">
+                        <i class="fas fa-download me-1"></i> Download Merged PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. PDF Split / Extract -->
+        <div class="tab-pane fade" id="pdf-split-pane">
+            <div class="magma-card p-4 mx-auto" style="max-width: 720px;">
+                <h5 class="fw-bold mb-3"><i class="fas fa-scissors text-danger me-2"></i>Extract / Split PDF Pages</h5>
+                <p class="small text-muted mb-4">Extract specific pages or page intervals from a PDF document into a new standalone PDF.</p>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted text-uppercase">Select Source PDF</label>
+                    <input type="file" id="pdf-split-file-input" class="form-control form-control-saas" accept=".pdf,application/pdf" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label small fw-semibold text-muted text-uppercase">Page Selection (e.g. 1, 3, 5-8)</label>
+                    <input type="text" id="pdf-split-pages-input" class="form-control form-control-saas font-mono" placeholder="1-3, 5" value="1">
+                    <div class="small text-muted mt-1">Specify comma-separated page numbers or ranges (e.g. `1-4, 7, 9-12`).</div>
+                </div>
+
+                <button class="btn-magma-primary w-100 mb-3" id="split-pdf-btn">
+                    <i class="fas fa-scissors me-1"></i> Extract & Generate PDF
+                </button>
+
+                <!-- Split Download Card -->
+                <div class="alert alert-success text-center py-4 border-0 rounded-4 shadow-sm" id="pdf-split-download-card" style="display: none;">
+                    <div class="fs-4 fw-bold mb-1 text-success"><i class="fas fa-circle-check me-2"></i>Extracted PDF Ready!</div>
+                    <p class="small text-muted mb-3" id="pdf-split-stats">Extracted pages saved to a new document.</p>
+                    <a href="#" class="btn-magma-primary px-4" id="pdf-split-download-link">
+                        <i class="fas fa-download me-1"></i> Download Extracted PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/file_tools.js') }}"></script>
+{% endblock %}

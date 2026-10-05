@@ -1,0 +1,1240 @@
+/**
+ * ==========================================================================
+ * CoreClicks 2.0 — Magma Sunset Design System
+ * Bespoke Agency-Grade Architecture & Editorial SaaS Visual Identity
+ * ==========================================================================
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    /* ----------------------------------------------------------------------
+       1. Core Color Palette (Magma Sunset Theme)
+       ---------------------------------------------------------------------- */
+    /* Primary */
+    --magma-red: #A61E2D;
+    --magma-red-hover: #8C1623;
+    --burnt-orange: #E4572E;
+    --burnt-orange-hover: #CB451D;
+    --sunset-orange: #FF7A18;
+    --sunset-orange-hover: #E6660A;
+
+    /* Accent */
+    --golden-amber: #FFC145;
+    --golden-amber-hover: #F0B232;
+    --warm-coral: #FF8A5B;
+    --warm-coral-hover: #F27847;
+
+    /* Backgrounds (Light Theme - Warm Cream & Light Warm Beige) */
+    --bg-body: #FFF8F2;
+    --bg-surface: #FFFFFF;
+    --bg-surface-elevated: #FCF9F6;
+    --bg-subtle: #F7F3EE;
+    --bg-card: #FFFFFF;
+    --bg-sidebar: #22181B;
+    --sidebar-text: #BBA9A7;
+    --sidebar-text-active: #FFFFFF;
+    --sidebar-item-active: rgba(228, 87, 46, 0.18);
+
+    /* Text */
+    --text-primary: #1E1E1E;
+    --text-secondary: #444444;
+    --text-muted: #786E69;
+    --text-inverse: #FFFFFF;
+
+    /* Borders */
+    --border-color: #EBDCD0;
+    --border-subtle: #F2E7DE;
+    --border-magma: rgba(228, 87, 46, 0.35);
+
+    /* Gradients (Custom Organic Sunset Transitions) */
+    --gradient-magma: linear-gradient(135deg, #A61E2D 0%, #E4572E 50%, #FF7A18 100%);
+    --gradient-sunset: linear-gradient(135deg, #E4572E 0%, #FF7A18 60%, #FFC145 100%);
+    --gradient-warm-soft: linear-gradient(180deg, #FFF8F2 0%, #F7F3EE 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 248, 242, 0.6) 100%);
+    --gradient-dark-glass: linear-gradient(135deg, rgba(34, 24, 27, 0.85) 0%, rgba(20, 15, 17, 0.9) 100%);
+
+    /* Glows & Shadows */
+    --glow-magma: 0 12px 35px -8px rgba(228, 87, 46, 0.35);
+    --glow-amber: 0 10px 30px -6px rgba(255, 193, 69, 0.35);
+    --glow-subtle: 0 4px 20px -2px rgba(166, 30, 45, 0.15);
+    --card-shadow: 0 10px 30px -10px rgba(70, 40, 30, 0.08), 0 2px 8px -2px rgba(70, 40, 30, 0.04);
+    --card-shadow-hover: 0 20px 40px -12px rgba(228, 87, 46, 0.16), 0 8px 16px -4px rgba(70, 40, 30, 0.06);
+    --shadow-floating: 0 30px 60px -15px rgba(34, 24, 27, 0.18);
+
+    /* Typography */
+    --font-heading: 'Outfit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-editorial: 'Fraunces', Georgia, serif;
+    --font-body: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Spacing & Radii */
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --radius-pill: 9999px;
+
+    /* Status Tokens (Warm Aligned) */
+    --status-success: #1E8E5A;
+    --status-warning: #D97706;
+    --status-danger: #A61E2D;
+    --status-info: #E4572E;
+}
+
+/* ----------------------------------------------------------------------
+   2. Dark Theme (Deep Magma Night Palette)
+   ---------------------------------------------------------------------- */
+[data-bs-theme="dark"] {
+    --bg-body: #141011;
+    --bg-surface: #1E1719;
+    --bg-surface-elevated: #271E21;
+    --bg-subtle: #241C1E;
+    --bg-card: #1C1517;
+    --bg-sidebar: #0E0B0C;
+    --sidebar-text: #8E7C80;
+    --sidebar-text-active: #FFF4ED;
+    --sidebar-item-active: rgba(228, 87, 46, 0.25);
+
+    --text-primary: #FFF5EE;
+    --text-secondary: #D4C4C0;
+    --text-muted: #9E8B88;
+    --text-inverse: #1E1E1E;
+
+    --border-color: #35262B;
+    --border-subtle: #291E21;
+    --border-magma: rgba(255, 122, 24, 0.45);
+
+    --gradient-warm-soft: linear-gradient(180deg, #141011 0%, #1A1315 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(30, 23, 25, 0.85) 0%, rgba(20, 16, 17, 0.8) 100%);
+    --gradient-dark-glass: linear-gradient(135deg, rgba(20, 16, 17, 0.95) 0%, rgba(14, 11, 12, 0.95) 100%);
+
+    --card-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.6), 0 2px 6px rgba(0, 0, 0, 0.4);
+    --card-shadow-hover: 0 24px 48px -12px rgba(228, 87, 46, 0.25), 0 6px 16px rgba(0, 0, 0, 0.5);
+    --shadow-floating: 0 35px 70px -15px rgba(0, 0, 0, 0.8);
+}
+
+/* ----------------------------------------------------------------------
+   3. Global Resets & Typography Base
+   ---------------------------------------------------------------------- */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--text-primary);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+}
+
+.font-editorial {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-weight: 400;
+}
+
+.font-heading {
+    font-family: var(--font-heading);
+}
+
+.font-mono {
+    font-family: var(--font-mono);
+}
+
+a {
+    color: var(--burnt-orange);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: var(--sunset-orange);
+}
+
+/* ----------------------------------------------------------------------
+   4. Custom Magma Text, Gradient & Glow Utilities
+   ---------------------------------------------------------------------- */
+.text-magma {
+    background: var(--gradient-sunset);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.text-editorial-gradient {
+    background: linear-gradient(135deg, #A61E2D 0%, #FF7A18 70%, #FFC145 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-muted-custom {
+    color: var(--text-muted) !important;
+}
+
+.bg-subtle-custom {
+    background-color: var(--bg-subtle) !important;
+}
+
+.border-custom {
+    border-color: var(--border-color) !important;
+}
+
+/* ----------------------------------------------------------------------
+   5. Buttons & Micro-Interactions
+   ---------------------------------------------------------------------- */
+.btn-magma-primary {
+    background: var(--gradient-sunset);
+    color: #FFFFFF !important;
+    border: none;
+    padding: 0.75rem 1.6rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--glow-magma);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.btn-magma-primary::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.btn-magma-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px -8px rgba(228, 87, 46, 0.55);
+    color: #FFFFFF;
+}
+
+.btn-magma-primary:hover::before {
+    opacity: 1;
+}
+
+.btn-magma-primary:active {
+    transform: translateY(0);
+}
+
+.btn-magma-outline {
+    background: transparent;
+    color: var(--text-primary) !important;
+    border: 1.5px solid var(--border-color);
+    padding: 0.72rem 1.5rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: var(--radius-pill);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.btn-magma-outline:hover {
+    border-color: var(--burnt-orange);
+    color: var(--burnt-orange) !important;
+    background: rgba(228, 87, 46, 0.05);
+    transform: translateY(-2px);
+}
+
+.btn-magma-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: var(--radius-pill);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.btn-magma-ghost:hover {
+    color: var(--burnt-orange);
+    background: var(--bg-subtle);
+}
+
+/* Compatibility & Modernized Utility Styles */
+.btn-primary-saas {
+    background: var(--gradient-sunset);
+    color: #FFFFFF !important;
+    border: none;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 14px rgba(228, 87, 46, 0.25);
+    transition: all 0.2s ease;
+}
+
+.btn-primary-saas:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--glow-magma);
+    color: #FFFFFF;
+}
+
+.btn-outline-saas {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+}
+
+.btn-outline-saas:hover {
+    border-color: var(--burnt-orange);
+    color: var(--burnt-orange);
+    background: var(--bg-subtle);
+}
+
+/* ----------------------------------------------------------------------
+   6. Custom Cards & Broken-Grid Panels
+   ---------------------------------------------------------------------- */
+.magma-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+.magma-card:hover {
+    box-shadow: var(--card-shadow-hover);
+    border-color: rgba(228, 87, 46, 0.3);
+}
+
+.magma-card-elevated {
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-floating);
+}
+
+.magma-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-radius: var(--radius-pill);
+    background: rgba(228, 87, 46, 0.1);
+    color: var(--burnt-orange);
+    border: 1px solid rgba(228, 87, 46, 0.25);
+}
+
+.magma-badge-amber {
+    background: rgba(255, 193, 69, 0.12);
+    color: #B45309;
+    border: 1px solid rgba(255, 193, 69, 0.3);
+}
+
+[data-bs-theme="dark"] .magma-badge-amber {
+    color: var(--golden-amber);
+}
+
+/* SaaS Compatibility Card Styles */
+.saas-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-shadow);
+    transition: all 0.25s ease;
+}
+
+.saas-card:hover {
+    border-color: rgba(228, 87, 46, 0.28);
+}
+
+.stat-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.35rem;
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    box-shadow: var(--card-shadow);
+    transition: all 0.25s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+    border-color: rgba(228, 87, 46, 0.35);
+}
+
+.stat-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.bg-subtle {
+    background-color: var(--bg-subtle) !important;
+}
+
+.bg-surface {
+    background-color: var(--bg-surface) !important;
+}
+
+/* Soft Badges */
+.badge-soft-primary {
+    background-color: rgba(228, 87, 46, 0.12);
+    color: var(--burnt-orange);
+    border: 1px solid rgba(228, 87, 46, 0.25);
+}
+
+.badge-soft-success {
+    background-color: rgba(30, 142, 90, 0.12);
+    color: var(--status-success);
+    border: 1px solid rgba(30, 142, 90, 0.25);
+}
+
+.badge-soft-danger {
+    background-color: rgba(166, 30, 45, 0.12);
+    color: var(--magma-red);
+    border: 1px solid rgba(166, 30, 45, 0.25);
+}
+
+.badge-soft-warning {
+    background-color: rgba(255, 193, 69, 0.18);
+    color: #B45309;
+    border: 1px solid rgba(255, 193, 69, 0.35);
+}
+
+[data-bs-theme="dark"] .badge-soft-warning {
+    color: var(--golden-amber);
+}
+
+.badge-soft-info {
+    background-color: rgba(255, 138, 91, 0.15);
+    color: var(--warm-coral);
+    border: 1px solid rgba(255, 138, 91, 0.3);
+}
+
+/* ----------------------------------------------------------------------
+   7. LANDING PAGE: Creative Agency Masterclass Architecture
+   ---------------------------------------------------------------------- */
+.landing-body {
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Ambient Magma Flares (Cinematic Lighting) */
+.ambient-glow-magma {
+    position: absolute;
+    width: 650px;
+    height: 650px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(228, 87, 46, 0.2) 0%, rgba(255, 122, 24, 0.08) 50%, transparent 70%);
+    filter: blur(90px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.ambient-glow-amber {
+    position: absolute;
+    width: 550px;
+    height: 550px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 193, 69, 0.18) 0%, rgba(255, 138, 91, 0.06) 50%, transparent 70%);
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Landing Navigation */
+.landing-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255, 248, 242, 0.85);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.1rem 0;
+    transition: all 0.3s ease;
+}
+
+[data-bs-theme="dark"] .landing-nav {
+    background: rgba(20, 16, 17, 0.88);
+}
+
+.landing-nav-brand {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.landing-nav-brand .brand-icon {
+    width: 38px;
+    height: 38px;
+    background: var(--gradient-sunset);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(228, 87, 46, 0.3);
+}
+
+.landing-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.85rem;
+}
+
+.landing-nav-link {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+}
+
+.landing-nav-link:hover {
+    color: var(--burnt-orange);
+}
+
+/* Hero Section (Asymmetrical & Editorial) */
+.landing-hero {
+    position: relative;
+    padding: 6.5rem 0 5rem 0;
+    z-index: 1;
+}
+
+.hero-editorial-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 1.2rem;
+    border-radius: var(--radius-pill);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    animation: floatSubtle 4s ease-in-out infinite alternate;
+}
+
+.hero-editorial-badge .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--burnt-orange);
+    box-shadow: 0 0 10px var(--burnt-orange);
+}
+
+.hero-title {
+    font-size: clamp(2.8rem, 6vw, 4.8rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.75rem;
+}
+
+.hero-subtitle {
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 620px;
+    margin-bottom: 2.5rem;
+}
+
+.hero-cta-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3.5rem;
+}
+
+/* Hero Interactive Mockup / Asymmetrical Canvas */
+.hero-mockup-wrapper {
+    position: relative;
+}
+
+.hero-main-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 1.75rem;
+    box-shadow: var(--shadow-floating);
+    position: relative;
+    z-index: 2;
+    transform: rotate(-0.5deg);
+    transition: transform 0.4s ease;
+}
+
+.hero-main-card:hover {
+    transform: rotate(0deg) translateY(-4px);
+}
+
+.hero-floating-pill {
+    position: absolute;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-magma);
+    border-radius: var(--radius-lg);
+    padding: 0.9rem 1.4rem;
+    box-shadow: var(--card-shadow-hover);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+}
+
+.hero-floating-pill:hover {
+    transform: translateY(-4px) scale(1.03);
+}
+
+.hero-pill-top-right {
+    top: -24px;
+    right: -20px;
+}
+
+.hero-pill-bottom-left {
+    bottom: -28px;
+    left: -20px;
+}
+
+/* ----------------------------------------------------------------------
+   8. 10-TOOL ECOSYSTEM MATRIX (Non-Generic Asymmetric Grid)
+   ---------------------------------------------------------------------- */
+.suite-matrix-section {
+    padding: 7rem 0;
+    position: relative;
+}
+
+.suite-tool-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.suite-tool-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 4px; height: 100%;
+    background: var(--gradient-sunset);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.suite-tool-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-shadow-hover);
+    border-color: rgba(228, 87, 46, 0.35);
+}
+
+.suite-tool-card:hover::after {
+    opacity: 1;
+}
+
+.suite-tool-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    margin-bottom: 1.25rem;
+    background: var(--bg-subtle);
+    color: var(--burnt-orange);
+    border: 1px solid var(--border-color);
+    transition: all 0.25s ease;
+}
+
+.suite-tool-card:hover .suite-tool-icon {
+    background: var(--gradient-sunset);
+    color: #FFFFFF;
+    box-shadow: 0 6px 16px rgba(228, 87, 46, 0.3);
+}
+
+/* ----------------------------------------------------------------------
+   13. HIGH-IMPACT SCULPTURAL CTA BANNER
+   ---------------------------------------------------------------------- */
+.cta-magma-banner {
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-sculptural-card {
+    background: var(--gradient-magma);
+    border-radius: var(--radius-xl);
+    padding: 4.5rem 3rem;
+    color: #FFFFFF;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-floating);
+}
+
+.cta-sculptural-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 193, 69, 0.3) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.btn-cta-light {
+    background: #FFFFFF;
+    color: var(--magma-red) !important;
+    border: none;
+    padding: 0.85rem 2rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.btn-cta-light:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25);
+    color: var(--burnt-orange) !important;
+}
+
+/* ----------------------------------------------------------------------
+   14. AGENCY-GRADE FOOTER
+   ---------------------------------------------------------------------- */
+.landing-footer {
+    background: var(--bg-sidebar);
+    color: var(--sidebar-text);
+    padding: 5rem 0 2.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-brand {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+}
+
+.footer-heading {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #FFFFFF;
+    margin-bottom: 1.25rem;
+}
+
+.footer-link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-link-list li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-link-list a {
+    color: var(--sidebar-text);
+    font-size: 0.92rem;
+    transition: color 0.2s ease;
+}
+
+.footer-link-list a:hover {
+    color: var(--sunset-orange);
+}
+
+.footer-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.85rem;
+    background: rgba(30, 142, 90, 0.15);
+    border: 1px solid rgba(30, 142, 90, 0.3);
+    border-radius: var(--radius-pill);
+    color: #34D399;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* ----------------------------------------------------------------------
+   15. SAAS APPLICATION WORKSPACE LAYOUT (Base & Dashboard)
+   ---------------------------------------------------------------------- */
+.saas-layout {
+    display: flex;
+    width: 100vw;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.saas-sidebar {
+    width: 260px;
+    background-color: var(--bg-sidebar);
+    color: var(--sidebar-text);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.25rem;
+    border-right: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1020;
+    transition: transform 0.3s ease;
+}
+
+.saas-sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem 1.5rem 0.75rem;
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 1rem;
+}
+
+.sidebar-group-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 0.85rem 0.75rem 0.35rem 0.75rem;
+}
+
+.saas-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.65rem 0.85rem;
+    color: var(--sidebar-text);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    margin-bottom: 0.25rem;
+    transition: all 0.2s ease;
+}
+
+.saas-nav-link i {
+    font-size: 1.05rem;
+    width: 20px;
+    text-align: center;
+}
+
+.saas-nav-link:hover {
+    color: var(--sidebar-text-active);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.saas-nav-link.active {
+    color: #FFFFFF;
+    background: var(--sidebar-item-active);
+    border-left: 3px solid var(--burnt-orange);
+    font-weight: 600;
+}
+
+.saas-sidebar-footer {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Main Wrapper & Topbar */
+.saas-main-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background-color: var(--bg-body);
+}
+
+.saas-topbar {
+    height: 68px;
+    background-color: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(16px);
+}
+
+.search-trigger-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-pill);
+    padding: 0.45rem 1.1rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 240px;
+}
+
+.search-trigger-btn:hover {
+    border-color: var(--burnt-orange);
+    color: var(--text-primary);
+}
+
+.kbd-shortcut {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.1rem 0.4rem;
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    margin-left: auto;
+}
+
+/* Form Controls Custom */
+.form-control-saas, .form-select-saas {
+    background-color: var(--bg-surface);
+    border: 1.5px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    padding: 0.65rem 0.95rem;
+    font-size: 0.92rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control-saas:focus, .form-select-saas:focus {
+    border-color: var(--burnt-orange);
+    box-shadow: 0 0 0 3px rgba(228, 87, 46, 0.18);
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    outline: none;
+}
+
+/* Kanban Board & Columns */
+.kanban-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    align-items: flex-start;
+}
+
+.kanban-col {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.1rem;
+    min-height: 480px;
+}
+
+.kanban-col-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.92rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.kanban-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 0.85rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    cursor: grab;
+    transition: all 0.2s ease;
+}
+
+.kanban-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+    border-color: rgba(228, 87, 46, 0.35);
+}
+
+/* Omni Search Modal */
+.omni-search-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 1.15rem;
+    font-family: var(--font-heading);
+    color: var(--text-primary);
+    padding: 0.5rem 0.75rem;
+    outline: none;
+}
+
+.omni-search-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.omni-search-item:hover {
+    background: var(--bg-subtle);
+    color: var(--burnt-orange);
+}
+
+/* Global Toast Container */
+.toast-container-custom {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.magma-toast {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--burnt-orange);
+    border-radius: var(--radius-md);
+    padding: 0.9rem 1.25rem;
+    box-shadow: var(--shadow-floating);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    animation: slideInRight 0.3s ease;
+}
+
+/* ----------------------------------------------------------------------
+   16. Keyframe Animations
+   ---------------------------------------------------------------------- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes floatSubtle {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-6px); }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Scroll reveal trigger class */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ----------------------------------------------------------------------
+   17. Responsive Breakpoints
+   ---------------------------------------------------------------------- */
+@media (max-width: 991.98px) {
+    .saas-sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        bottom: 0;
+        box-shadow: var(--shadow-floating);
+    }
+
+    .saas-sidebar.show {
+        left: 0;
+    }
+
+    .hero-main-card {
+        transform: none;
+    }
+
+    .hero-pill-top-right, .hero-pill-bottom-left {
+        position: static;
+        margin-top: 1rem;
+    }
+
+    .pricing-editorial-card.featured {
+        transform: none;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .hero-title {
+        font-size: 2.4rem;
+    }
+
+    .playground-tab-pane {
+        padding: 1.5rem;
+    }
+
+    .cta-sculptural-card {
+        padding: 3rem 1.5rem;
+    }
+}
+
+/* ----------------------------------------------------------------------
+   18. TACTILE SCIENTIFIC CALCULATOR ENGINE
+   ---------------------------------------------------------------------- */
+.calculator-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+}
+
+.calc-btn {
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    padding: 1rem 0;
+    font-size: 1.15rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.calc-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--burnt-orange);
+    box-shadow: 0 4px 10px rgba(228, 87, 46, 0.15);
+}
+
+.calc-btn:active {
+    transform: translateY(0);
+}
+
+.calc-btn.op {
+    background-color: var(--bg-subtle);
+    color: var(--burnt-orange);
+    border-color: var(--border-magma);
+}
+
+.calc-btn.op:hover {
+    background-color: var(--burnt-orange);
+    color: #FFFFFF;
+    border-color: var(--burnt-orange);
+}
+
+.calc-btn.equals {
+    background: var(--gradient-sunset);
+    color: #FFFFFF;
+    border: none;
+    box-shadow: 0 4px 12px rgba(228, 87, 46, 0.3);
+}
+
+.calc-btn.equals:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(228, 87, 46, 0.4);
+}
+

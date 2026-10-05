@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}500 — Internal Server Error — CoreClicks 2.0{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center my-auto">
+    <div class="magma-card p-5 max-w-600 mx-auto position-relative overflow-hidden">
+        <div class="display-1 fw-bold text-warning mb-3 font-heading">500</div>
+        <h2 class="fw-bold mb-2">Engine Exception</h2>
+        <p class="text-muted mb-4">An unexpected computation error occurred. The transaction state has been automatically rolled back safely.</p>
+        <a href="{{ url_for('main.dashboard') }}" class="btn-magma-primary px-4">
+            <i class="fas fa-rotate-right me-1"></i> Reload Workspace
+        </a>
+    </div>
+</div>
+{% endblock %}

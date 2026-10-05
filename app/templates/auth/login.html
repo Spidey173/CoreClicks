@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — CoreClicks 2.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="d-flex align-items-center justify-content-center min-vh-100 p-3 position-relative" style="background: radial-gradient(circle at 50% 20%, rgba(228, 87, 46, 0.1) 0%, var(--bg-body) 80%);">
+
+<div class="ambient-glow-magma" style="top: -150px; left: -100px;"></div>
+<div class="ambient-glow-amber" style="bottom: -150px; right: -100px;"></div>
+
+<div class="magma-card-elevated p-4 p-md-5 position-relative z-1" style="max-width: 460px; width: 100%;">
+    <div class="text-center mb-4">
+        <a href="/" class="d-inline-flex p-3 rounded-4 text-white mb-3 shadow" style="background: var(--gradient-sunset);">
+            <i class="fas fa-fire-flame-curved fs-3"></i>
+        </a>
+        <h2 class="fw-bold mb-1">CoreClicks<span class="text-magma ms-1" style="font-size: 1.1rem;">2.0</span></h2>
+        <p class="text-muted small">Enter your sovereign developer workspace</p>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show small py-2 border-0" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close small p-2" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('auth.login') }}">
+        <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted text-uppercase">Email or Username</label>
+            <div class="input-group">
+                <span class="input-group-text bg-subtle-custom border-custom text-muted"><i class="fas fa-user"></i></span>
+                <input type="text" name="identifier" class="form-control form-control-saas" value="admin@coreclicks.dev" placeholder="name@domain.com" required autofocus>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label small fw-semibold text-muted text-uppercase">Password</label>
+            <div class="input-group">
+                <span class="input-group-text bg-subtle-custom border-custom text-muted"><i class="fas fa-lock"></i></span>
+                <input type="password" name="password" class="form-control form-control-saas" value="Admin@12345" placeholder="••••••••" required>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4 small">
+            <div class="form-check">
+                <input type="checkbox" name="remember" class="form-check-input" id="rememberMe" checked>
+                <label class="form-check-label text-muted" for="rememberMe">Remember session</label>
+            </div>
+            <span class="badge bg-subtle-custom text-muted border border-custom">Demo: Admin@12345</span>
+        </div>
+
+        <button type="submit" class="btn-magma-primary w-100 py-2 fw-semibold">
+            <i class="fas fa-right-to-bracket me-1"></i> Sign In to Suite
+        </button>
+    </form>
+
+    <div class="text-center mt-4 pt-3 border-top border-custom small text-muted">
+        New to CoreClicks? <a href="{{ url_for('auth.register') }}" class="text-primary fw-semibold text-decoration-none">Create Account</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

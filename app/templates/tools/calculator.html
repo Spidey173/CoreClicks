@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Safe Calculator Engine — CoreClicks 2.0{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row g-4">
+        <!-- Main Calculator Section -->
+        <div class="col-lg-8">
+            <div class="magma-card overflow-hidden">
+                <div class="p-3 text-white d-flex justify-content-between align-items-center" style="background: var(--gradient-sunset);">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-calculator fs-5"></i>
+                        <span class="fw-bold">Safe Scientific Calculator Engine</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-sm btn-outline-light" id="angle-mode-toggle-btn" onclick="toggleAngleMode()">RAD</button>
+                        <span class="badge bg-white text-dark">AST Parsed</span>
+                    </div>
+                </div>
+
+                <div class="p-4">
+                    <!-- Calculator Display Screen -->
+                    <div class="p-3 mb-4 rounded-3 border border-custom bg-subtle-custom text-end">
+                        <input type="text" id="calc-expression-input" class="form-control text-end fs-5 font-mono border-0 bg-transparent mb-1 p-0" 
+                               placeholder="e.g. sqrt(1024) * sin(pi/2)" autocomplete="off">
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top border-custom">
+                            <button class="btn btn-sm btn-link text-muted p-0" id="copy-calc-result-btn" title="Copy result"><i class="far fa-copy"></i> Copy</button>
+                            <div class="fs-2 fw-bold text-magma font-mono" id="calc-result-display">0</div>
+                        </div>
+                    </div>
+
+                    <!-- Memory & Scientific Utility Bar -->
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <button class="btn btn-sm btn-magma-outline" onclick="handleMemory('MC')">MC</button>
+                        <button class="btn btn-sm btn-magma-outline" onclick="handleMemory('MR')">MR</button>
+                        <button class="btn btn-sm btn-magma-outline" onclick="handleMemory('M+')">M+</button>
+                        <button class="btn btn-sm btn-magma-outline" onclick="handleMemory('M-')">M-</button>
+                        <span class="border-end mx-1"></span>
+                        <button class="btn btn-sm btn-magma-outline" onclick="appendCalc('pi')">π</button>
+                        <button class="btn btn-sm btn-magma-outline" onclick="appendCalc('e')">e</button>
+                        <button class="btn btn-sm btn-magma-outline" onclick="appendCalc('factorial(')">x!</button>
+                        <button class="btn btn-sm btn-magma-outline" onclick="appendCalc('sqrt(')">√</button>
+                        <button class="btn btn-sm btn-magma-outline" onclick="appendCalc('^')">x^y</button>
+                        <button class="btn btn-sm btn-magma-outline" onclick="appendCalc('log(')">log</button>
+                        <button class="btn btn-sm btn-magma-outline" onclick="appendCalc('ln(')">ln</button>
+                    </div>
+
+                    <!-- Keypad Grid -->
+                    <div class="calculator-grid mb-3">
+                        <button class="calc-btn op" onclick="clearCalc()">C</button>
+                        <button class="calc-btn op" onclick="appendCalc('(')">(</button>
+                        <button class="calc-btn op" onclick="appendCalc(')')">)</button>
+                        <button class="calc-btn op" onclick="appendCalc('/')">÷</button>
+
+                        <button class="calc-btn op" onclick="appendCalc('sin(')">sin</button>
+                        <button class="calc-btn" onclick="appendCalc('7')">7</button>
+                        <button class="calc-btn" onclick="appendCalc('8')">8</button>
+                        <button class="calc-btn" onclick="appendCalc('9')">9</button>
+
+                        <button class="calc-btn op" onclick="appendCalc('cos(')">cos</button>
+                        <button class="calc-btn" onclick="appendCalc('4')">4</button>
+                        <button class="calc-btn" onclick="appendCalc('5')">5</button>
+                        <button class="calc-btn" onclick="appendCalc('6')">6</button>
+
+                        <button class="calc-btn op" onclick="appendCalc('tan(')">tan</button>
+                        <button class="calc-btn" onclick="appendCalc('1')">1</button>
+                        <button class="calc-btn" onclick="appendCalc('2')">2</button>
+                        <button class="calc-btn" onclick="appendCalc('3')">3</button>
+
+                        <button class="calc-btn op" onclick="deleteCalcChar()"><i class="fas fa-delete-left"></i></button>
+                        <button class="calc-btn" onclick="appendCalc('0')">0</button>
+                        <button class="calc-btn" onclick="appendCalc('.')">.</button>
+                        <button class="calc-btn equals" onclick="evaluateCalculation()">=</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Calculation History Drawer -->
+        <div class="col-lg-4">
+            <div class="magma-card h-100 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold mb-0 small text-uppercase text-muted"><i class="fas fa-clock-rotate-left me-1 text-warning"></i> Calculation History</h6>
+                    <button class="btn btn-sm btn-link text-danger text-decoration-none p-0 small" onclick="clearCalcHistory()">Clear</button>
+                </div>
+                <div id="calc-history-list" style="max-height: 480px; overflow-y: auto;">
+                    <div class="text-center text-muted py-4 small">Loading history...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/calculator.js') }}"></script>
+{% endblock %}

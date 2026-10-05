@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}CSV Analytics & Dataset Profiling — CoreClicks 2.0{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold mb-0"><i class="fas fa-chart-line text-cyan me-2"></i>CSV Analytics & Pandas Profiling Studio</h3>
+            <p class="text-muted small mb-0 mt-1">Upload CSV/TSV datasets for instant descriptive statistics, correlation matrices, and Chart.js visualizations.</p>
+        </div>
+    </div>
+
+    <!-- Drag & Drop Uploader -->
+    <div class="saas-card p-4 mb-4 text-center cursor-pointer border-dashed" id="csv-dropzone" style="border: 2px dashed var(--border-color);" onclick="document.getElementById('csv-file-input').click()">
+        <input type="file" id="csv-file-input" accept=".csv,.tsv,.txt" style="display: none;">
+        <i class="fas fa-cloud-arrow-up fs-1 text-primary mb-2"></i>
+        <h5 class="fw-bold mb-1">Drag and drop your CSV dataset here</h5>
+        <p class="text-muted small mb-2">or click to browse files from your computer (Max 32MB)</p>
+        <span class="badge bg-subtle text-muted">Supports CSV, TSV, TXT</span>
+        <div id="csv-upload-status" class="mt-2 text-primary small fw-semibold" style="display: none;"></div>
+    </div>
+
+    <!-- Analysis Results Section (Dynamic) -->
+    <div id="analytics-results-container" style="display: none;">
+        <!-- Overview KPIs Row -->
+        <div class="row g-3 mb-4">
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper bg-primary text-white"><i class="fas fa-table-cells-large"></i></div>
+                    <div>
+                        <div class="text-muted small fw-semibold text-uppercase">Total Rows</div>
+                        <div class="fs-4 fw-bold font-monospace" id="stat-rows-count">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper bg-info text-white"><i class="fas fa-columns"></i></div>
+                    <div>
+                        <div class="text-muted small fw-semibold text-uppercase">Total Columns</div>
+                        <div class="fs-4 fw-bold font-monospace" id="stat-cols-count">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper bg-warning text-white"><i class="fas fa-triangle-exclamation"></i></div>
+                    <div>
+                        <div class="text-muted small fw-semibold text-uppercase">Missing Cells</div>
+                        <div class="fs-4 fw-bold font-monospace" id="stat-missing-count">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper bg-danger text-white"><i class="fas fa-clone"></i></div>
+                    <div>
+                        <div class="text-muted small fw-semibold text-uppercase">Duplicate Rows</div>
+                        <div class="fs-4 fw-bold font-monospace" id="stat-dupes-count">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Chart.js Grid -->
+        <div class="row g-4 mb-4" id="analytics-charts-grid"></div>
+
+        <!-- Preview Table -->
+        <div class="saas-card p-4">
+            <h5 class="fw-bold mb-3"><i class="fas fa-table me-2 text-primary"></i>Dataset Sample Preview (First 15 Rows)</h5>
+            <div class="table-responsive" style="max-height: 400px; overflow: auto;">
+                <table class="table table-hover table-striped small align-middle mb-0 font-monospace">
+                    <thead class="bg-subtle text-muted" id="analytics-table-header"></thead>
+                    <tbody id="analytics-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/analytics.js') }}"></script>
+{% endblock %}

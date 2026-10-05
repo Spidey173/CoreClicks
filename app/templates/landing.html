@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="CoreClicks 2.0 — An award-winning, handcrafted productivity, developer and financial utility suite designed with editorial elegance.">
+    <title>CoreClicks 2.0 — The Handcrafted Utility Suite</title>
+
+    <!-- Google Fonts: Fraunces, Outfit, Plus Jakarta Sans, Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome 6 Pro / Free -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Magma Sunset Design System -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="landing-body">
+
+    <!-- Ambient Cinematic Magma Flares -->
+    <div class="ambient-glow-magma" style="top: -120px; left: -100px;"></div>
+    <div class="ambient-glow-amber" style="top: 150px; right: -100px;"></div>
+
+    <!-- 1. Editorial Navigation Bar -->
+    <header class="landing-nav">
+        <div class="container-xl d-flex align-items-center justify-content-between">
+            <a href="/" class="landing-nav-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-fire-flame-curved"></i>
+                </div>
+                <span>CoreClicks<span class="text-magma ms-1" style="font-size: 1rem;">2.0</span></span>
+            </a>
+
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-magma-ghost p-2 rounded-circle" id="landing-theme-toggle" title="Toggle Theme">
+                    <i class="fas fa-circle-half-stroke"></i>
+                </button>
+
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('main.dashboard') }}" class="btn-magma-primary">
+                    <i class="fas fa-gauge-high"></i> Dashboard
+                </a>
+                {% else %}
+                <a href="{{ url_for('auth.login') }}" class="btn-magma-outline d-none d-sm-inline-flex">Sign In</a>
+                <a href="{{ url_for('auth.register') }}" class="btn-magma-primary">
+                    <span>Launch Workspace</span>
+                    <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Hero Section (Clean, Bold, & Punchy) -->
+    <section class="landing-hero">
+        <div class="container-xl">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <div class="hero-editorial-badge">
+                        <span class="pulse-dot"></span>
+                        <span class="text-uppercase tracking-wider">Release 2.0 • Handcrafted Utility Suite</span>
+                    </div>
+
+                    <h1 class="hero-title">
+                        Where high craft meets <span class="font-editorial text-magma">computational precision</span>.
+                    </h1>
+
+                    <p class="hero-subtitle">
+                        A curated suite of 10 essential developer, productivity, and analytical instruments—handcrafted
+                        without clutter, ads, or generic templates.
+                    </p>
+
+                    <div class="hero-cta-group">
+                        <a href="{{ url_for('auth.register') }}" class="btn-magma-primary"
+                            style="padding: 0.9rem 2rem; font-size: 1.05rem;">
+                            <span>Launch Free Workspace</span>
+                            <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                        <a href="#instruments" class="btn-magma-outline" style="padding: 0.85rem 1.8rem;">
+                            <i class="fas fa-cubes text-warning me-1"></i>
+                            <span>Explore 10 Instruments</span>
+                        </a>
+                    </div>
+
+                    <!-- Minimalist Trust Bar -->
+                    <div
+                        class="d-flex flex-wrap align-items-center gap-4 pt-3 border-top border-custom text-muted small">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-shield-halved text-success"></i>
+                            <span>Client-Side Privacy</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-bolt text-warning"></i>
+                            <span>Sub-50ms AST Engine</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-lock text-danger"></i>
+                            <span>PBKDF2 Encrypted</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Interactive Visual Canvas -->
+                <div class="col-lg-6">
+                    <div class="hero-mockup-wrapper">
+                        <!-- Floating Pill: Entropy -->
+                        <div class="hero-floating-pill hero-pill-top-right">
+                            <div class="rounded-circle p-2 bg-danger bg-opacity-10 text-danger">
+                                <i class="fas fa-shield-virus fs-5"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold small">Entropy Meter</div>
+                                <div class="small text-success">112 Bits • Military Grade</div>
+                            </div>
+                        </div>
+
+                        <!-- Main Asymmetrical Showcase Card -->
+                        <div class="hero-main-card">
+                            <div
+                                class="d-flex justify-content-between align-items-center pb-3 mb-3 border-bottom border-custom">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge badge-soft-primary"><i class="fas fa-cube me-1"></i> Core
+                                        Suite</span>
+                                    <span class="fw-bold small">Telemetry & State Engine</span>
+                                </div>
+                                <div class="d-flex gap-1">
+                                    <span class="p-1 rounded-circle bg-danger"
+                                        style="width:8px; height:8px; display:inline-block;"></span>
+                                    <span class="p-1 rounded-circle bg-warning"
+                                        style="width:8px; height:8px; display:inline-block;"></span>
+                                    <span class="p-1 rounded-circle bg-success"
+                                        style="width:8px; height:8px; display:inline-block;"></span>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-6">
+                                    <div class="p-3 rounded-4 bg-subtle-custom border border-custom">
+                                        <div class="text-muted small fw-semibold text-uppercase">Sprint Progress</div>
+                                        <div class="fs-4 fw-bold text-magma">88.5%</div>
+                                        <div class="small text-muted mt-1">14 / 16 Done</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 rounded-4 bg-subtle-custom border border-custom">
+                                        <div class="text-muted small fw-semibold text-uppercase">API Response</div>
+                                        <div class="fs-4 fw-bold text-success">18 ms</div>
+                                        <div class="small text-muted mt-1">JSON HTTP/2</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Expression Box -->
+                            <div
+                                class="p-3 rounded-4 bg-subtle-custom border border-custom font-mono small d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="text-muted">$ eval</span> <span class="text-primary fw-bold">"sqrt(256)
+                                        * 14.5"</span>
+                                </div>
+                                <span class="badge bg-success text-white">232.0000</span>
+                            </div>
+                        </div>
+
+                        <!-- Floating Pill: Cashflow -->
+                        <div class="hero-floating-pill hero-pill-bottom-left">
+                            <div class="rounded-circle p-2 bg-success bg-opacity-10 text-success">
+                                <i class="fas fa-arrow-trend-up fs-5"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold small">Monthly Cash Flow</div>
+                                <div class="small text-success">+64.8% Net Savings</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 10 CORE INSTRUMENTS (Clean Bento Matrix) -->
+    <section class="suite-matrix-section" id="instruments">
+        <div class="container-xl">
+            <div class="text-center max-w-700 mx-auto mb-5 reveal-on-scroll">
+                <span class="magma-badge mb-2"><i class="fas fa-cubes"></i> The Complete Suite</span>
+                <h2 class="fw-bold fs-2">10 Purpose-Built Instruments</h2>
+                <p class="text-muted small">Everything you need in one cohesive, beautiful workspace.</p>
+
+                <!-- Category Filters -->
+                <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+                    <button class="btn-magma-primary suite-filter-pill active" data-category="all">All Tools</button>
+                    <button class="btn-magma-outline suite-filter-pill"
+                        data-category="productivity">Productivity</button>
+                    <button class="btn-magma-outline suite-filter-pill" data-category="developer">Developer</button>
+                    <button class="btn-magma-outline suite-filter-pill" data-category="security">Security</button>
+                    <button class="btn-magma-outline suite-filter-pill" data-category="finance">Finance</button>
+                </div>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="suite-tools-grid">
+                <!-- 1. Tasks -->
+                <div class="col suite-tool-card-col" data-category="productivity">
+                    <div class="suite-tool-card">
+                        <div>
+                            <div class="suite-tool-icon"><i class="fas fa-tasks"></i></div>
+                            <h5 class="fw-bold mb-1">Task Manager & Kanban</h5>
+                            <p class="text-muted small mb-3">Multi-column sprint board with drag-and-drop state,
+                                priorities, and categories.</p>
+                        </div>
+                        <a href="{{ url_for('tasks.view') }}"
+                            class="btn-magma-ghost p-0 text-primary fw-bold small">Launch Board <i
+                                class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- 2. Notes -->
+                <div class="col suite-tool-card-col" data-category="productivity">
+                    <div class="suite-tool-card">
+                        <div>
+                            <div class="suite-tool-icon"><i class="fas fa-note-sticky"></i></div>
+                            <h5 class="fw-bold mb-1">Markdown Notes</h5>
+                            <p class="text-muted small mb-3">Rich editorial markdown editor with split preview, tag
+                                filters, and version timeline.</p>
+                        </div>
+                        <a href="{{ url_for('notes.view') }}"
+                            class="btn-magma-ghost p-0 text-primary fw-bold small">Launch Notes <i
+                                class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- 3. Password Security -->
+                <div class="col suite-tool-card-col" data-category="security">
+                    <div class="suite-tool-card">
+                        <div>
+                            <div class="suite-tool-icon"><i class="fas fa-shield-halved"></i></div>
+                            <h5 class="fw-bold mb-1">Password Auditor</h5>
+                            <p class="text-muted small mb-3">Entropy scoring, CSPRNG token generator, and dictionary
+                                breach diagnostic.</p>
+                        </div>
+                        <a href="{{ url_for('password.view') }}"
+                            class="btn-magma-ghost p-0 text-primary fw-bold small">Launch Vault <i
+                                class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- 4. API Tester -->
+                <div class="col suite-tool-card-col" data-category="developer">
+                    <div class="suite-tool-card">
+                        <div>
+                            <div class="suite-tool-icon"><i class="fas fa-paper-plane"></i></div>
+                            <h5 class="fw-bold mb-1">REST API Tester</h5>
+                            <p class="text-muted small mb-3">Send HTTP requests with custom headers, query params, and
+                                JSON formatting.</p>
+                        </div>
+                        <a href="{{ url_for('api_tester.view') }}"
+                            class="btn-magma-ghost p-0 text-primary fw-bold small">Launch Tester <i
+                                class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- 5. Calculator -->
+                <div class="col suite-tool-card-col" data-category="developer">
+                    <div class="suite-tool-card">
+                        <div>
+                            <div class="suite-tool-icon"><i class="fas fa-calculator"></i></div>
+                            <h5 class="fw-bold mb-1">Safe Calculator</h5>
+                            <p class="text-muted small mb-3">AST-parsed scientific math engine with trigonometry,
+                                constants, and calculation history.</p>
+                        </div>
+                        <a href="{{ url_for('calculator.view') }}"
+                            class="btn-magma-ghost p-0 text-primary fw-bold small">Launch Calculator <i
+                                class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- 6. CSV Analytics -->
+                <div class="col suite-tool-card-col" data-category="finance">
+                    <div class="suite-tool-card">
+                        <div>
+                            <div class="suite-tool-icon"><i class="fas fa-chart-line"></i></div>
+                            <h5 class="fw-bold mb-1">CSV Analytics</h5>
+                            <p class="text-muted small mb-3">Instant dataset summaries, column distributions, and
+                                interactive Chart.js graphs.</p>
+                        </div>
+                        <a href="{{ url_for('analytics.view') }}"
+                            class="btn-magma-ghost p-0 text-primary fw-bold small">Launch Analytics <i
+                                class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- 7. Expenses -->
+                <div class="col suite-tool-card-col" data-category="finance">
+                    <div class="suite-tool-card">
+                        <div>
+                            <div class="suite-tool-icon"><i class="fas fa-wallet"></i></div>
+                            <h5 class="fw-bold mb-1">Expense Tracker</h5>
+                            <p class="text-muted small mb-3">Monthly income vs expenses, budget guardrails, and
+                                cash-flow savings rate.</p>
+                        </div>
+                        <a href="{{ url_for('expenses.view') }}"
+                            class="btn-magma-ghost p-0 text-primary fw-bold small">Launch Tracker <i
+                                class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- 8. File Tools -->
+                <div class="col suite-tool-card-col" data-category="developer">
+                    <div class="suite-tool-card">
+                        <div>
+                            <div class="suite-tool-icon"><i class="fas fa-file-waveform"></i></div>
+                            <h5 class="fw-bold mb-1">File & PDF Studio</h5>
+                            <p class="text-muted small mb-3">Compress images, convert formats, merge PDFs, and split
+                                documents securely.</p>
+                        </div>
+                        <a href="{{ url_for('file_tools.view') }}"
+                            class="btn-magma-ghost p-0 text-primary fw-bold small">Launch File Studio <i
+                                class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- 9. Color Studio -->
+                <div class="col suite-tool-card-col" data-category="developer">
+                    <div class="suite-tool-card">
+                        <div>
+                            <div class="suite-tool-icon"><i class="fas fa-palette"></i></div>
+                            <h5 class="fw-bold mb-1">Color Studio</h5>
+                            <p class="text-muted small mb-3">Palette generator, WCAG 2.1 contrast checker, and instant
+                                CSS variable export.</p>
+                        </div>
+                        <a href="{{ url_for('color_tools.view') }}"
+                            class="btn-magma-ghost p-0 text-primary fw-bold small">Launch Color Studio <i
+                                class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- 10. URL Shortener -->
+                <div class="col suite-tool-card-col" data-category="developer">
+                    <div class="suite-tool-card">
+                        <div>
+                            <div class="suite-tool-icon"><i class="fas fa-link"></i></div>
+                            <h5 class="fw-bold mb-1">Smart URL Shortener</h5>
+                            <p class="text-muted small mb-3">Custom branded aliases, password-protected links, QR codes,
+                                and click metrics.</p>
+                        </div>
+                        <a href="{{ url_for('url_shortener.view') }}"
+                            class="btn-magma-ghost p-0 text-primary fw-bold small">Launch Shortener <i
+                                class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. HIGH-IMPACT SCULPTURAL CTA -->
+    <section class="cta-magma-banner">
+        <div class="container-xl">
+            <div class="cta-sculptural-card text-center text-md-start reveal-on-scroll">
+                <div class="row align-items-center g-4">
+                    <div class="col-md-8">
+                        <span class="badge bg-white bg-opacity-20 text-white mb-2">✦ Elevate Your Daily Stack</span>
+                        <h2 class="fw-bold text-white fs-2 mb-2">Start building with software designed for craftsmen.
+                        </h2>
+                        <p class="text-white text-opacity-80 mb-0 small">No credit card required. Instant access to all
+                            10 tools.</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <a href="{{ url_for('auth.register') }}" class="btn-cta-light">
+                            <span>Get Started Free</span>
+                            <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. CLEAN AGENCY FOOTER -->
+    <footer class="landing-footer">
+        <div class="container-xl">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="footer-brand mb-0">
+                        <i class="fas fa-fire-flame-curved text-sunset me-1"></i>
+                        <span>CoreClicks 2.0</span>
+                    </div>
+                    <span class="text-muted ms-2 small d-none d-sm-inline">• Handcrafted Utility Suite</span>
+                </div>
+
+                <div class="d-flex align-items-center gap-3 small">
+                    <div class="footer-status-pill">
+                        <i class="fas fa-circle-check"></i>
+                        <span>All 10 Services Live</span>
+                    </div>
+                    <a href="{{ url_for('auth.login') }}" class="text-muted">Sign In</a>
+                    <a href="{{ url_for('auth.register') }}" class="text-muted">Register</a>
+                </div>
+            </div>
+
+            <div class="text-center text-muted small mt-4 pt-3 border-top border-white border-opacity-10">
+                © 2026 CoreClicks Studio. Crafted with Magma Sunset Design System.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Landing Interactive Engine -->
+    <script src="{{ url_for('static', filename='js/landing.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}Workspace Overview — CoreClicks 2.0{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Editorial Magma Welcome Banner -->
+    <div class="magma-card p-4 p-md-5 mb-4 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(228, 87, 46, 0.12) 0%, rgba(255, 122, 24, 0.06) 100%); border-color: rgba(228, 87, 46, 0.3);">
+        <div class="ambient-glow-magma" style="top: -200px; right: -200px; width: 400px; height: 400px;"></div>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 position-relative z-1">
+            <div>
+                <span class="magma-badge mb-2"><i class="fas fa-sparkles me-1"></i> Sovereign Suite 2.0</span>
+                <h2 class="fw-bold mb-1">Welcome back, {{ current_user.username }}!</h2>
+                <p class="text-muted small mb-0">Here is your daily operational telemetry across your 10 productivity, security, and developer instruments.</p>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ url_for('tasks.view') }}" class="btn-magma-primary btn-sm"><i class="fas fa-plus me-1"></i> New Task</a>
+                <a href="{{ url_for('notes.view') }}" class="btn-magma-outline btn-sm"><i class="fas fa-pen me-1"></i> Draft Note</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4 Asymmetric KPI Telemetry Cards -->
+    <div class="row g-3 mb-4">
+        <!-- 1. Tasks KPI -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="stat-icon-wrapper text-white" style="background: var(--gradient-sunset);">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div>
+                    <div class="text-muted small fw-semibold text-uppercase">Active Tasks</div>
+                    <div class="fs-4 fw-bold text-magma">{{ task_stats.todo + task_stats.in_progress }}</div>
+                    <div class="small text-success fw-semibold"><i class="fas fa-arrow-trend-up me-1"></i>{{ task_stats.completion_rate }}% completed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Expenses KPI -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="stat-icon-wrapper text-white" style="background: linear-gradient(135deg, #A61E2D 0%, #E4572E 100%);">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div>
+                    <div class="text-muted small fw-semibold text-uppercase">Monthly Spent</div>
+                    <div class="fs-4 fw-bold">${{ expense_summary.total_expense }}</div>
+                    <div class="small text-muted">${{ expense_summary.net_savings }} net savings</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Notes KPI -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="stat-icon-wrapper text-white" style="background: linear-gradient(135deg, #E4572E 0%, #FFC145 100%);">
+                    <i class="fas fa-note-sticky"></i>
+                </div>
+                <div>
+                    <div class="text-muted small fw-semibold text-uppercase">Saved Notes</div>
+                    <div class="fs-4 fw-bold">{{ recent_notes|length }}</div>
+                    <div class="small text-muted">Workspace active</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Smart Links KPI -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="stat-icon-wrapper text-white" style="background: linear-gradient(135deg, #FF7A18 0%, #FF8A5B 100%);">
+                    <i class="fas fa-link"></i>
+                </div>
+                <div>
+                    <div class="text-muted small fw-semibold text-uppercase">Smart Links</div>
+                    <div class="fs-4 fw-bold">{{ short_urls_count }}</div>
+                    <div class="small text-primary">QR Ready</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Workspace Grid: Today's Agenda & Cash Flow Telemetry -->
+    <div class="row g-4 mb-4">
+        <!-- Today's Agenda -->
+        <div class="col-lg-7">
+            <div class="magma-card h-100 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-custom">
+                    <h5 class="fw-bold mb-0"><i class="fas fa-list-check text-warning me-2"></i>Sprint & Priority Agenda</h5>
+                    <a href="{{ url_for('tasks.view') }}" class="btn btn-sm btn-link text-decoration-none text-primary fw-bold">Open Board <i class="fas fa-arrow-right ms-1"></i></a>
+                </div>
+
+                {% if recent_tasks %}
+                <div class="d-flex flex-column gap-2">
+                    {% for t in recent_tasks %}
+                    <div class="p-3 rounded-3 border border-custom bg-subtle-custom d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="badge {% if t.priority == 'high' %}badge-soft-danger{% elif t.priority == 'medium' %}badge-soft-warning{% else %}badge-soft-info{% endif %} text-uppercase small">
+                                {{ t.priority }}
+                            </span>
+                            <div>
+                                <h6 class="mb-0 fw-bold">{{ t.title }}</h6>
+                                <span class="small text-muted">{{ t.category }} {% if t.due_date %}• Due: {{ t.due_date }}{% endif %}</span>
+                            </div>
+                        </div>
+                        <span class="badge bg-surface border border-custom text-muted small text-capitalize">{{ t.status.replace('_', ' ') }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-5 text-muted">
+                    <i class="fas fa-check-double fs-1 opacity-25 mb-2"></i>
+                    <p class="small mb-0">All agenda items completed. Focus state optimal.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Monthly Financial Overview -->
+        <div class="col-lg-5">
+            <div class="magma-card h-100 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom border-custom">
+                    <h5 class="fw-bold mb-0"><i class="fas fa-coins text-success me-2"></i>Cash Flow Allocation</h5>
+                    <a href="{{ url_for('expenses.view') }}" class="btn btn-sm btn-link text-decoration-none text-primary fw-bold">Expenses Hub <i class="fas fa-arrow-right ms-1"></i></a>
+                </div>
+
+                <div class="d-flex justify-content-between mb-3 p-3 bg-subtle-custom rounded-3 border border-custom">
+                    <div>
+                        <div class="small text-muted">Income</div>
+                        <div class="fs-5 fw-bold text-success">+${{ expense_summary.total_income }}</div>
+                    </div>
+                    <div>
+                        <div class="small text-muted">Expenses</div>
+                        <div class="fs-5 fw-bold text-danger">-${{ expense_summary.total_expense }}</div>
+                    </div>
+                    <div>
+                        <div class="small text-muted">Savings Rate</div>
+                        <div class="fs-5 fw-bold text-magma">{{ expense_summary.savings_rate }}%</div>
+                    </div>
+                </div>
+
+                <h6 class="fw-bold small text-uppercase text-muted mb-2">Budget Guardrails</h6>
+                {% if expense_summary.budgets %}
+                <div class="d-flex flex-column gap-2">
+                    {% for b in expense_summary.budgets[:3] %}
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center small mb-1">
+                            <span class="fw-semibold">{{ b.category }}</span>
+                            <span class="text-muted">${{ b.spent }} / ${{ b.limit }}</span>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar {% if b.is_exceeded %}bg-danger{% else %}bg-warning{% endif %}" style="width: {{ b.percentage }}%;"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-4 text-muted small">No category budget limits set yet.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Launchpad (10 Instruments Grid) -->
+    <div class="mb-4">
+        <h5 class="fw-bold mb-3"><i class="fas fa-grip me-2 text-warning"></i>10 Instrument Quick Launch</h5>
+        <div class="row row-cols-2 row-cols-md-5 g-3">
+            <div class="col">
+                <a href="{{ url_for('calculator.view') }}" class="magma-card p-3 d-flex flex-column align-items-center text-center text-decoration-none h-100">
+                    <div class="p-2 rounded-circle bg-subtle-custom mb-2 text-warning fs-4"><i class="fas fa-calculator"></i></div>
+                    <span class="fw-bold small text-primary">Calculator</span>
+                </a>
+            </div>
+            <div class="col">
+                <a href="{{ url_for('password.view') }}" class="magma-card p-3 d-flex flex-column align-items-center text-center text-decoration-none h-100">
+                    <div class="p-2 rounded-circle bg-subtle-custom mb-2 text-danger fs-4"><i class="fas fa-shield-halved"></i></div>
+                    <span class="fw-bold small text-primary">Password Auditor</span>
+                </a>
+            </div>
+            <div class="col">
+                <a href="{{ url_for('tasks.view') }}" class="magma-card p-3 d-flex flex-column align-items-center text-center text-decoration-none h-100">
+                    <div class="p-2 rounded-circle bg-subtle-custom mb-2 text-success fs-4"><i class="fas fa-tasks"></i></div>
+                    <span class="fw-bold small text-primary">Task Manager</span>
+                </a>
+            </div>
+            <div class="col">
+                <a href="{{ url_for('notes.view') }}" class="magma-card p-3 d-flex flex-column align-items-center text-center text-decoration-none h-100">
+                    <div class="p-2 rounded-circle bg-subtle-custom mb-2 text-warning fs-4"><i class="fas fa-note-sticky"></i></div>
+                    <span class="fw-bold small text-primary">Notes Workspace</span>
+                </a>
+            </div>
+            <div class="col">
+                <a href="{{ url_for('api_tester.view') }}" class="magma-card p-3 d-flex flex-column align-items-center text-center text-decoration-none h-100">
+                    <div class="p-2 rounded-circle bg-subtle-custom mb-2 text-primary fs-4"><i class="fas fa-paper-plane"></i></div>
+                    <span class="fw-bold small text-primary">API Tester</span>
+                </a>
+            </div>
+            <div class="col">
+                <a href="{{ url_for('analytics.view') }}" class="magma-card p-3 d-flex flex-column align-items-center text-center text-decoration-none h-100">
+                    <div class="p-2 rounded-circle bg-subtle-custom mb-2 text-info fs-4"><i class="fas fa-chart-line"></i></div>
+                    <span class="fw-bold small text-primary">CSV Analytics</span>
+                </a>
+            </div>
+            <div class="col">
+                <a href="{{ url_for('expenses.view') }}" class="magma-card p-3 d-flex flex-column align-items-center text-center text-decoration-none h-100">
+                    <div class="p-2 rounded-circle bg-subtle-custom mb-2 text-success fs-4"><i class="fas fa-wallet"></i></div>
+                    <span class="fw-bold small text-primary">Expense Tracker</span>
+                </a>
+            </div>
+            <div class="col">
+                <a href="{{ url_for('file_tools.view') }}" class="magma-card p-3 d-flex flex-column align-items-center text-center text-decoration-none h-100">
+                    <div class="p-2 rounded-circle bg-subtle-custom mb-2 text-danger fs-4"><i class="fas fa-file-waveform"></i></div>
+                    <span class="fw-bold small text-primary">File Studio</span>
+                </a>
+            </div>
+            <div class="col">
+                <a href="{{ url_for('color_tools.view') }}" class="magma-card p-3 d-flex flex-column align-items-center text-center text-decoration-none h-100">
+                    <div class="p-2 rounded-circle bg-subtle-custom mb-2 text-warning fs-4"><i class="fas fa-palette"></i></div>
+                    <span class="fw-bold small text-primary">Color Studio</span>
+                </a>
+            </div>
+            <div class="col">
+                <a href="{{ url_for('url_shortener.view') }}" class="magma-card p-3 d-flex flex-column align-items-center text-center text-decoration-none h-100">
+                    <div class="p-2 rounded-circle bg-subtle-custom mb-2 text-primary fs-4"><i class="fas fa-link"></i></div>
+                    <span class="fw-bold small text-primary">URL Shortener</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
