@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Webhook Interceptor & Inspection Console — CoreClicks 2.0{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+            <h2 class="h3 fw-bold mb-1"><i class="fas fa-satellite-dish text-info me-2"></i>Real-Time Webhook Catch & Inspection</h2>
+            <p class="text-muted small mb-0">Capture, inspect, and debug external webhooks (GitHub, Stripe, Razorpay) with headers, HMAC signatures, and payloads.</p>
+        </div>
+        <button class="btn-magma-primary" id="btn-create-webhook-endpoint">
+            <i class="fas fa-plus me-1"></i> New Webhook Endpoint
+        </button>
+    </div>
+
+    <div class="row g-4">
+        <!-- Endpoints List -->
+        <div class="col-lg-4">
+            <div class="magma-card p-3 mb-4">
+                <h5 class="fw-bold mb-3 d-flex justify-content-between align-items-center">
+                    <span>Active Endpoints</span>
+                    <span class="badge bg-primary rounded-pill" id="endpoint-count-badge">0</span>
+                </h5>
+                <div id="webhook-endpoints-container" class="d-flex flex-column gap-2">
+                    <div class="text-center py-4 text-muted small">Loading endpoints...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deliveries & Payload Inspector -->
+        <div class="col-lg-8">
+            <div class="magma-card p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h5 class="fw-bold mb-0" id="selected-endpoint-title">Select an Endpoint</h5>
+                        <p class="text-muted small mb-0 font-mono" id="selected-endpoint-url">Click an endpoint to copy its listener URL.</p>
+                    </div>
+                    <button class="btn btn-sm btn-outline-secondary" id="btn-refresh-deliveries" style="display: none;">
+                        <i class="fas fa-sync-alt me-1"></i> Refresh
+                    </button>
+                </div>
+
+                <!-- Deliveries Table / Stream -->
+                <div id="deliveries-container">
+                    <div class="text-center py-5 text-muted">
+                        <i class="fas fa-inbox fa-3x mb-3 text-secondary opacity-50"></i>
+                        <p class="mb-0">Select an endpoint on the left to inspect captured payloads.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    let activeEndpointId = null;
+
+    async function loadEndpoints() {
+        const res = await fetch('/api/v1/webhooks/endpoints');
+        if (!res.ok) return;
+        const data = await res.json();
+        const container = document.getElementById('webhook-endpoints-container');
+        document.getElementById('endpoint-count-badge').textContent = data.length;
+
+        if (data.length === 0) {
+            container.innerHTML = '<div class="text-center py-4 text-muted small">No webhooks yet. Click "New Webhook Endpoint" to generate one.</div>';
+            return;
+        }
+
+        container.innerHTML = data.map(ep => `
+            <div class="p-3 rounded border ${activeEndpointId === ep.id ? 'border-primary bg-dark' : 'border-secondary'} endpoint-item" style="cursor: pointer;" data-id="${ep.id}" data-token="${ep.endpoint_token}" data-name="${ep.name}">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="fw-bold">${ep.name}</span>
+                    <span class="badge bg-secondary">${ep.total_deliveries} hits</span>
+                </div>
+                <div class="font-mono text-muted small text-truncate">/hook/${ep.endpoint_token}</div>
+            </div>
+        `).join('');
+
+        document.querySelectorAll('.endpoint-item').forEach(el => {
+            el.addEventListener('click', () => {
+                selectEndpoint(parseInt(el.dataset.id), el.dataset.name, el.dataset.token);
+            });
+        });
+
+        if (!activeEndpointId && data.length > 0) {
+            selectEndpoint(data[0].id, data[0].name, data[0].endpoint_token);
+        }
+    }
+
+    function selectEndpoint(id, name, token) {
+        activeEndpointId = id;
+        document.getElementById('selected-endpoint-title').textContent = name;
+        const fullUrl = `${window.location.origin}/hook/${token}`;
+        document.getElementById('selected-endpoint-url').innerHTML = `
+            Listener URL: <input type="text" class="form-control form-control-sm font-mono mt-1 d-inline-block" value="${fullUrl}" readonly onclick="this.select(); navigator.clipboard.writeText(this.value);" title="Click to copy">
+        `;
+        document.getElementById('btn-refresh-deliveries').style.display = 'inline-block';
+        loadDeliveries(id);
+    }
+
+    async function loadDeliveries(endpointId) {
+        const res = await fetch(`/api/v1/webhooks/endpoints/${endpointId}/deliveries`);
+        if (!res.ok) return;
+        const deliveries = await res.json();
+        const container = document.getElementById('deliveries-container');
+
+        if (deliveries.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-5 text-muted">
+                    <i class="fas fa-satellite fa-3x mb-3 text-info opacity-75"></i>
+                    <p class="fw-semibold mb-1">Listening for incoming webhooks...</p>
+                    <p class="small text-muted mb-0">Send a POST/GET request to the URL above to inspect payloads.</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = deliveries.map(d => `
+            <div class="border rounded p-3 mb-3 bg-dark">
+                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-${d.method === 'POST' ? 'primary' : 'success'}">${d.method}</span>
+                        <span class="font-mono small text-light">${d.received_at}</span>
+                        <span class="badge bg-secondary small">IP: ${d.ip_address || 'unknown'}</span>
+                    </div>
+                    ${d.signature_header ? `<span class="badge bg-warning text-dark"><i class="fas fa-key me-1"></i>Signed</span>` : ''}
+                </div>
+                <div class="mb-2">
+                    <span class="small fw-bold text-muted">Headers:</span>
+                    <pre class="p-2 rounded bg-black text-info small mb-2 overflow-auto" style="max-height: 120px;">${JSON.stringify(d.headers, null, 2)}</pre>
+                </div>
+                <div>
+                    <span class="small fw-bold text-muted">Payload:</span>
+                    <pre class="p-2 rounded bg-black text-light small mb-0 overflow-auto" style="max-height: 200px;">${typeof d.payload === 'object' ? JSON.stringify(d.payload, null, 2) : (d.payload || '<Empty Payload>')}</pre>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    document.getElementById('btn-create-webhook-endpoint').addEventListener('click', async () => {
+        const name = prompt("Enter a name for this webhook endpoint:", "Payment Webhook") || "Custom Webhook";
+        const res = await fetch('/api/v1/webhooks/endpoints', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({name: name})
+        });
+        if (res.ok) {
+            loadEndpoints();
+        }
+    });
+
+    document.getElementById('btn-refresh-deliveries').addEventListener('click', () => {
+        if (activeEndpointId) loadDeliveries(activeEndpointId);
+    });
+
+    loadEndpoints();
+});
+</script>
+{% endblock %}
