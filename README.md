@@ -18,6 +18,14 @@
   <img src="https://img.shields.io/badge/Deployment-Vercel-000000?style=flat-square&logo=vercel&logoColor=white" alt="Vercel">
 </p>
 
+CoreClicks is a full-stack developer and daily productivity hub built with Flask and PostgreSQL. It combines 11 self-contained utilities—from developer essentials like an anti-SSRF REST API tester and webhook inspector to everyday productivity tools like a Kanban board and CSV analytics—into a unified, session-authenticated web platform.
+
+### 🎯 Key Architectural Highlights
+- **Application Factory Pattern & Modular Blueprints**: Each tool is implemented as an isolated Flask blueprint with dedicated services for separation of concerns.
+- **Security-First Utility Design**: Built-in protection against SSRF in outbound API testing and safe AST parsing for mathematical evaluation instead of insecure `eval()`.
+- **Relational Data Modeling**: Powered by SQLAlchemy with Postgres (Neon Serverless) and connection pooling.
+- **Production-Ready Deployment**: Pre-configured for serverless WSGI deployment on Vercel with automated test coverage via `pytest`.
+
 ---
 
 ## ⚡ Quick Try (Live App)
@@ -35,53 +43,53 @@ Experience the live app right now:
 
 ---
 
-## 🌟 Features & 10 Built-In Tools
+## 🌟 Built-In Developer & Productivity Tools
 
-CoreClicks brings together 10 robust tools in one unified, sleek dashboard:
+CoreClicks brings together 11 utility modules in one clean, unified workspace:
 
-1. 🧮 **Safe Calculator Engine (`/calculator`)**
-   - Basic and scientific operations (trig functions, powers, logarithms, factorials) with safe sandboxed evaluation.
-   - Saves calculation history per user account.
+1. 🧮 **Calculator (`/calculator`)**
+   - Standard arithmetic and scientific operations (trig functions, powers, logarithms, factorials) with safe sandboxed evaluation using Python's `ast` parsing.
+   - Per-user calculation history.
 
-2. 🔐 **Password Security Auditor (`/password-security`)**
-   - Password strength analyzer, Shannon entropy calculator, and vulnerability tips.
-   - Built-in secure password and passphrase generator.
+2. 🔐 **Password Auditor & Generator (`/password-security`)**
+   - Password strength analysis and Shannon entropy computation.
+   - Cryptographically secure password and passphrase generator (`secrets` module).
 
 3. 📋 **Task Manager & Kanban Board (`/tasks`)**
-   - Interactive drag-and-drop Kanban workflow (`To Do`, `In Progress`, `Review`, `Done`).
-   - Priority tagging, category filtering, and progress tracking.
+   - Drag-and-drop Kanban workflow (`To Do`, `In Progress`, `Review`, `Done`).
+   - Priority levels, category filtering, and status updates.
 
-4. 📝 **Notes Workspace (`/notes`)**
-   - Full-featured note-taking studio with live split Markdown preview.
-   - Categorize by folders, pin essential notes, and export to `.md` or `.html`.
+4. 📝 **Markdown Notes (`/notes`)**
+   - Note-taking workspace with live split Markdown preview.
+   - Folder categorization, pinned notes, and export options (`.md`, `.html`).
 
 5. 🌐 **REST API Tester (`/api-tester`)**
-   - Browser-based HTTP client (`GET`, `POST`, `PUT`, `DELETE`, `PATCH`).
-   - Request history, JSON payload formatting, header inspection, and response timing.
+   - Browser HTTP client supporting standard methods (`GET`, `POST`, `PUT`, `DELETE`, `PATCH`).
+   - Request history, header inspection, latency timing, and SSRF validation protecting internal network boundaries.
 
-6. 📊 **CSV Analytics Studio (`/analytics`)**
-   - Upload tabular datasets for instant summary statistics, missing-value inspection, and Chart.js visualizations.
+6. 📊 **CSV Analytics (`/analytics`)**
+   - Tabular dataset upload for statistical summaries, missing value detection, and Chart.js visualizations using Pandas.
 
 7. 💰 **Expense Tracker (`/expenses`)**
-   - Income and expense tracking with category breakdowns and merchant tagging.
-   - Real-time monthly balance calculations and budget limit monitoring.
+   - Income and expense logging with merchant tags and category breakdowns.
+   - Monthly summaries and budget threshold tracking.
 
-8. 📁 **File Converter Studio (`/file-tools`)**
-   - **Images**: Resize, compress, rotate, and convert formats (PNG, JPG, WebP).
-   - **PDFs**: Merge multiple documents or extract/split custom page ranges.
+8. 📁 **File & Document Converter (`/file-tools`)**
+   - **Images**: Resize, compress, rotate, and format conversion (PNG, JPG, WebP) powered by Pillow.
+   - **PDFs**: Document merging and custom page range extraction powered by PyPDF.
 
-9. 🎨 **Color Palette & Accessibility Studio (`/color-tools`)**
-   - Color harmony generator (Complementary, Triadic, Analogous, Monochromatic).
-   - WCAG 2.1 text contrast ratio auditor for accessibility compliance.
+9. 🎨 **Color Palette & Accessibility Tool (`/color-tools`)**
+   - Color harmony generation (Complementary, Triadic, Analogous, Monochromatic).
+   - WCAG 2.1 contrast ratio calculator for accessibility checks.
 
-10. 🔗 **Distributed URL Shortener & QR Studio (`/url-shortener`)**
-    - High-throughput 64-bit Twitter Snowflake Base62 ID engine (zero collision round-trips).
-    - Probabilistic Bloom Filter shield against cache penetration & crawler scans.
-    - Export downloadable high-resolution QR codes in PNG and SVG.
+10. 🔗 **URL Shortener & QR Generator (`/url-shortener`)**
+    - High-performance Base62 unique short-code generation (Snowflake ID inspired).
+    - In-memory Bloom Filter (with optional Redis support) as a fast pre-lookup to avoid unnecessary database queries on invalid codes.
+    - High-resolution QR code generation (PNG / SVG).
 
-11. 🛰️ **Developer Webhook Interceptor & Mock Console (`/webhooks`)**
-    - Live temporary endpoints (`/hook/<token>`) to capture external webhooks (Stripe, GitHub, Razorpay).
-    - Inspect captured headers, HMAC signatures, query parameters, and raw JSON payloads.
+11. 🛰️ **Webhook Inspector & Mock Endpoint (`/webhooks`)**
+    - Temporary endpoints (`/hook/<token>`) to capture and test incoming webhooks (Stripe, GitHub, etc.).
+    - Inspection of request headers, HMAC signatures, query params, and raw JSON payloads.
 
 ---
 
